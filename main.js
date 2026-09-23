@@ -1,39 +1,106 @@
 (function () {
   var D = window.PORTFOLIO;
   var $ = function (id) { return document.getElementById(id); };
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function esc(s) {
     return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
-
   function empty(msg) { return '<p class="empty">' + esc(msg) + "</p>"; }
-
+  function badge(text, cls) { return text ? '<span class="badge ' + (cls || "") + '">' + esc(text) + "</span>" : ""; }
   function imageBtn(src, caption) {
-    if (!src) return "";
-    return '<button class="btn small" type="button" data-view="' + esc(src) +
-      '" data-caption="' + esc(caption) + '">증빙 보기</button>';
+    return src ? '<button class="btn small" type="button" data-view="' + esc(src) + '" data-caption="' + esc(caption) + '">증빙 보기</button>' : "";
   }
-
   function linkBtn(href, label) {
-    if (!href) return "";
-    return '<a class="btn small" href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + "</a>";
+    return href ? '<a class="btn small" href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + "</a>" : "";
+  }
+  function parseDate(d) {
+    var m = /^(\d{4})\.(\d{1,2})/.exec(d || "");
+    return m ? { y: +m[1], m: +m[2] } : null;
   }
 
-  // ---------- profile ----------
-  var p = D.profile;
-  $("role").textContent = p.role;
-  $("name").innerHTML = esc(p.name) + (p.nameKo ? "<small>" + esc(p.nameKo) + "</small>" : "");
-  $("brand").textContent = p.name;
-  $("tagline").textContent = p.tagline;
-  $("intro").textContent = p.intro;
-  $("interests").innerHTML = D.interests.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("");
-  $("photo").innerHTML = p.photo
-    ? '<img src="' + esc(p.photo) + '" alt="' + esc(p.name) + ' 프로필 사진">'
-    : '<div class="avatar" aria-hidden="true">' + esc(p.name.charAt(0)) + "</div>";
+  // ---------- 기록 종류 정의: 순서 = 연도 페이지에서 그룹 순서 ----------
+  var TYPES = [
+    { key: "patents", ko: "특허", render: function (x) {
+      return '<div class="badge-row">' + badge(x.status, x.status === "등록" ? "ok" : "info") + "</div><h3>" + esc(x.title) +
+        '</h3><p class="meta">' + esc([x.number, x.inventors].filter(Boolean).join(" · ")) + "</p>" +
+        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + imageBtn(x.image, x.title) + "</div>";
+    } },
+    { key: "publications", ko: "논문", render: function (x) {
+      var cls = { Submitted: "info", "Under review": "warn", Accepted: "ok", Published: "ok" }[x.status] || "";
+      return '<div class="badge-row">' + badge(x.status, cls) + badge(x.expected) + "</div><h3>" + esc(x.title) +
+        '</h3><p class="meta">' + esc(x.authors) + '</p><p class="meta">Target · <b>' + esc(x.target) + "</b></p>" +
+        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + linkBtn(x.link, "논문 보기") + "</div>";
+    } },
+    { key: "conferences", ko: "학회 발표", render: function (x) {
+      return '<div class="badge-row">' + badge(x.type, "accent") + (x.award ? badge("🏆 " + x.award, "warn") : "") + "</div><h3>" +
+        esc(x.title) + '</h3><p class="meta">' + esc([x.venue, x.location].filter(Boolean).join(" · ")) + '</p><p class="meta">' +
+        esc(x.authors) + '</p><div class="actions">' + linkBtn(x.link, "자료 보기") + "</div>";
+    } },
+    { key: "licenses", ko: "자격증", render: function (x) {
+      return (x.planned ? '<div class="badge-row">' + badge("응시 예정", "plan") + "</div>" : "") + "<h3>" + esc(x.title) +
+        '</h3><p class="meta">' + esc([x.issuer, x.number].filter(Boolean).join(" · ")) + '</p><div class="actions">' +
+        imageBtn(x.image, x.title) + "</div>";
+    } },
+    { key: "languages", ko: "어학", render: function (x) {
+      var detail = x.planned ? (x.goal ? "목표 " + x.goal : "") : x.score;
+      return (x.planned ? '<div class="badge-row">' + badge("응시 예정", "plan") + "</div>" : "") + "<h3>" + esc(x.title) +
+        '</h3><p class="meta">' + esc(detail) + '</p><div class="actions">' + imageBtn(x.image, x.title) + "</div>";
+    } },
+    { key: "certificates", ko: "수료 · 교육", render: function (x) {
+      return '<div class="badge-row">' + badge(x.category, "accent") + "</div><h3>" + esc(x.title) + '</h3><p class="meta">' +
+        esc(x.issuer) + '</p><div class="actions">' + linkBtn(x.credentialUrl, "Credential") + imageBtn(x.image, x.title) + "</div>";
+    } }
+  ];
 
-  var L = p.links;
+  // 전체 기록을 하나의 목록으로 (연·월 파싱)
+  var ITEMS = [];
+  TYPES.forEach(function (t) {
+    (D[t.key] || []).forEach(function (x) {
+      var d = parseDate(x.date);
+      if (d) ITEMS.push({ type: t, data: x, y: d.y, m: d.m });
+    });
+  });
+  var years = {};
+  ITEMS.forEach(function (i) { years[i.y] = true; });
+  Object.keys(D.years || {}).forEach(function (y) { years[y] = true; });
+  var YEARS = Object.keys(years).map(Number).sort(function (a, b) { return b - a; });
+
+  // ---------- hero ----------
+  var p = D.profile;
+  $("brand").textContent = p.name;
+  $("hello").innerHTML = "Hello! I'm <b>" + esc(p.name) + "</b>";
+  $("photo").innerHTML = (p.photo
+    ? '<img src="' + esc(p.photo) + '" alt="' + esc(p.name) + ' 프로필 사진">'
+    : '<div class="avatar" aria-hidden="true">' + esc(p.name.charAt(0)) + "</div>") +
+    '<svg class="pulse" viewBox="0 0 140 28" aria-hidden="true"><path d="M2 16 H40 l6 -6 l6 6 H62 l5 5 l7 -19 l7 24 l5 -10 H100 l7 -4 l7 4 H138"/></svg>';
+
+  var h = p.headline || {};
+  $("headline").innerHTML = esc(h.before) + (h.highlight
+    ? '<span class="circled">' + esc(h.highlight) +
+      '<svg viewBox="0 0 120 50" preserveAspectRatio="none" aria-hidden="true"><path d="M8 28 C 6 10, 60 2, 104 10 C 124 16, 118 40, 80 46 C 44 50, 4 44, 6 26 C 8 16, 30 8, 54 7"/></svg></span>'
+    : "") + esc(h.after);
+  $("intro").textContent = p.intro;
+
+  // 타이핑 효과
+  var roles = p.roles && p.roles.length ? p.roles : [""];
+  if (reduceMotion || roles.length < 2) {
+    $("typed").textContent = roles[0];
+  } else {
+    var ri = 0, ci = 0, deleting = false;
+    (function tick() {
+      var word = roles[ri];
+      ci += deleting ? -1 : 1;
+      $("typed").textContent = word.slice(0, ci);
+      var delay = deleting ? 40 : 85;
+      if (!deleting && ci === word.length) { deleting = true; delay = 1600; }
+      else if (deleting && ci === 0) { deleting = false; ri = (ri + 1) % roles.length; delay = 300; }
+      setTimeout(tick, delay);
+    })();
+  }
+
+  var L = p.links || {};
   var links = [
     L.email && '<a class="btn primary" href="mailto:' + esc(L.email) + '">Email</a>',
     L.cv && '<a class="btn" href="' + esc(L.cv) + '" target="_blank" rel="noopener">CV (PDF)</a>',
@@ -45,107 +112,114 @@
   $("footerLinks").innerHTML = links;
   $("copyright").textContent = "© " + new Date().getFullYear() + " " + p.name + " · " + p.location;
 
-  // ---------- stats ----------
-  var stats = [
-    ["특허", D.patents.length],
-    ["학회 발표", D.conferences.length],
-    ["논문", D.publications.length],
-    ["수료 · 교육", D.certificates.length]
-  ];
-  $("stats").innerHTML = stats.map(function (s) {
-    return "<div><dt>" + s[0] + "</dt><dd>" + s[1] + "</dd></div>";
-  }).join("");
+  function done(key) { return (D[key] || []).filter(function (x) { return !x.planned; }).length; }
+  $("stats").innerHTML = [
+    ["특허", done("patents")],
+    ["논문", done("publications")],
+    ["학회 발표", done("conferences")],
+    ["자격 · 어학", done("licenses") + done("languages")],
+    ["수료 · 교육", done("certificates")]
+  ].map(function (s) { return "<div><dt>" + s[0] + "</dt><dd>" + s[1] + "</dd></div>"; }).join("");
 
-  // ---------- education ----------
+  // ---------- about ----------
   function gpaRow(label, v, max) {
     if (v == null || v === "") return "";
-    var pct = Math.min(100, (v / max) * 100);
-    return '<div class="gpa-row"><div class="label"><span>' + label + "</span><strong>" +
-      Number(v).toFixed(2) + ' <span class="muted" style="font-size:13px;font-weight:400">/ ' + max +
-      '</span></strong></div><div class="bar"><i style="width:' + pct + '%"></i></div></div>';
+    return '<div class="gpa-row"><div class="label"><span>' + label + "</span><strong>" + Number(v).toFixed(2) +
+      " <small>/ " + max + '</small></strong></div><div class="bar"><i style="width:' + Math.min(100, v / max * 100) + '%"></i></div></div>';
   }
-  $("educationList").innerHTML = D.education.length ? D.education.map(function (e) {
+  $("educationList").innerHTML = (D.education || []).length ? D.education.map(function (e) {
     var max = e.gpaMax || 4.5;
-    return '<article class="card edu"><div><h3>' + esc(e.school) + '</h3><p class="meta">' +
-      esc(e.degree) + "</p><p class=\"meta\">" + esc(e.period) + "</p>" +
+    return '<article class="card edu"><div><h3 class="card-label">Education</h3><h3>' + esc(e.school) + '</h3><p class="meta">' +
+      esc(e.degree) + '</p><p class="meta">' + esc(e.period) + "</p>" +
       (e.notes && e.notes.length ? "<ul>" + e.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>" : "") +
-      '</div><div class="gpa">' + gpaRow("전체 평점", e.gpa, max) + gpaRow("전공 평점", e.majorGpa, max) +
-      "</div></article>";
+      '</div><div class="gpa">' + gpaRow("전체 평점", e.gpa, max) + gpaRow("전공 평점", e.majorGpa, max) + "</div></article>";
   }).join("") : empty("학력 정보를 data.js에 추가하세요.");
 
-  // ---------- patents ----------
-  $("patentList").innerHTML = D.patents.length ? D.patents.map(function (x) {
-    var cls = x.status === "등록" ? "ok" : "info";
-    return '<article class="card"><div class="badge-row"><span class="badge ' + cls + '">' + esc(x.status) +
-      '</span><span class="badge">' + esc(x.date) + "</span></div><h3>" + esc(x.title) + '</h3><p class="meta">' +
-      esc(x.number) + (x.inventors ? " · " + esc(x.inventors) : "") + "</p><p>" + esc(x.summary) +
-      '</p><div class="actions">' + imageBtn(x.image, x.title) + "</div></article>";
-  }).join("") : empty("특허 정보를 data.js에 추가하세요.");
+  var creds = (D.licenses || []).concat(D.languages || []);
+  $("credList").innerHTML = creds.length ? creds.map(function (c) {
+    var right = c.planned ? badge("예정", "plan") : badge(c.score || c.date);
+    var sub = c.issuer || (c.planned && c.goal ? "목표 " + c.goal : "");
+    return "<li><div><b>" + esc(c.title) + "</b>" + (sub ? "<small>" + esc(sub) + "</small>" : "") + "</div>" + right + "</li>";
+  }).join("") : '<li class="muted">자격증·어학 성적을 data.js에 추가하세요.</li>';
+  $("interests").innerHTML = (D.interests || []).map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("");
 
-  // ---------- conferences ----------
-  $("conferenceList").innerHTML = D.conferences.length ? D.conferences.map(function (c) {
-    return '<li><article class="card"><div class="badge-row"><span class="badge accent">' + esc(c.type) +
-      '</span><span class="badge">' + esc(c.date) + "</span>" +
-      (c.award ? '<span class="badge warn">🏆 ' + esc(c.award) + "</span>" : "") +
-      "</div><h3>" + esc(c.title) + '</h3><p class="meta">' + esc(c.venue) + " · " + esc(c.location) +
-      "</p><p class=\"meta\">" + esc(c.authors) + '</p><div class="actions">' + linkBtn(c.link, "자료 보기") +
-      "</div></article></li>";
-  }).join("") : "<li>" + empty("학회 발표 정보를 data.js에 추가하세요.") + "</li>";
+  // ---------- timeline: 연도별 페이지 ----------
+  var MON = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-  // ---------- publications ----------
-  var pubCls = {
-    "In preparation": "", "Submitted": "info", "Under review": "warn", "Accepted": "ok", "Published": "ok"
-  };
-  $("publicationList").innerHTML = D.publications.length ? D.publications.map(function (x) {
-    return '<article class="card pub"><div class="badge-row"><span class="badge ' + (pubCls[x.status] || "") + '">' +
-      esc(x.status) + "</span>" + (x.expected ? '<span class="badge">' + esc(x.expected) + "</span>" : "") +
-      "</div><h3>" + esc(x.title) + '</h3><p class="meta">' + esc(x.authors) +
-      '</p><p class="meta target">Target: <b>' + esc(x.target) + "</b></p>" +
-      (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
-      '<div class="actions">' + linkBtn(x.link, "논문 보기") + "</div></article>";
-  }).join("") : empty("논문 정보를 data.js에 추가하세요.");
+  $("yearRail").innerHTML = YEARS.map(function (y) {
+    var n = ITEMS.filter(function (i) { return i.y === y; }).length;
+    return '<li><a href="#y' + y + '" data-year="' + y + '">' + y + "<em>" + n + "</em></a></li>";
+  }).join("");
 
-  // ---------- certificates ----------
-  var cats = ["전체"];
-  D.certificates.forEach(function (c) { if (cats.indexOf(c.category) < 0) cats.push(c.category); });
-  var current = "전체";
-  try { current = localStorage.getItem("certTab") || "전체"; } catch (e) {}
-  if (cats.indexOf(current) < 0) current = "전체";
-
-  function renderCerts() {
-    var list = D.certificates.filter(function (c) { return current === "전체" || c.category === current; });
-    $("certTabs").innerHTML = cats.map(function (c) {
-      var n = c === "전체" ? D.certificates.length
-        : D.certificates.filter(function (x) { return x.category === c; }).length;
-      return '<button type="button" role="tab" data-cat="' + esc(c) + '" aria-selected="' + (c === current) + '">' +
-        esc(c) + '<span class="count">' + n + "</span></button>";
+  $("yearPages").innerHTML = YEARS.length ? YEARS.map(function (y, idx) {
+    var list = ITEMS.filter(function (i) { return i.y === y; });
+    var meta = (D.years || {})[y] || {};
+    var counts = TYPES.map(function (t) {
+      var n = list.filter(function (i) { return i.type === t; }).length;
+      return n ? t.ko + " <em>" + n + "</em>건" : "";
+    }).filter(Boolean).join(", ");
+    var groups = TYPES.map(function (t) {
+      var g = list.filter(function (i) { return i.type === t; }).sort(function (a, b) { return b.m - a.m; });
+      if (!g.length) return "";
+      return '<div class="grp"><h4>' + t.ko + " · " + g.length + "</h4>" + g.map(function (i) {
+        return '<div class="entry' + (i.data.planned ? " planned" : "") + '"><div class="mo">' + String(i.m).padStart(2, "0") +
+          "<small>" + MON[i.m - 1] + '</small></div><article class="card">' + t.render(i.data) + "</article></div>";
+      }).join("") + "</div>";
     }).join("");
-    $("certList").innerHTML = list.length ? list.map(function (c) {
-      return '<article class="card"><span class="badge accent">' + esc(c.category) + "</span><h3>" + esc(c.title) +
-        '</h3><p class="meta">' + esc(c.issuer) + '</p><p class="meta">' + esc(c.date) + '</p><div class="actions">' +
-        linkBtn(c.credentialUrl, "Credential") + imageBtn(c.image, c.title) + "</div></article>";
-    }).join("") : empty("수료 이력을 data.js에 추가하세요.");
+    var newer = YEARS[idx - 1], older = YEARS[idx + 1];
+    return '<article class="year-page" id="y' + y + '" data-year="' + y + '" aria-label="' + y + '년 기록">' +
+      '<header class="year-head"><div><p class="year-num">' + y + '</p><p class="year-sub">Vol. ' + (YEARS.length - idx) +
+      (meta.gpa ? " · GPA " + Number(meta.gpa).toFixed(2) : "") + " · " + list.length + " records</p></div>" +
+      '<div class="arrows"><button type="button" data-go="' + (older || "") + '" aria-label="이전 해"' + (older ? "" : " disabled") + ">←</button>" +
+      '<button type="button" data-go="' + (newer || "") + '" aria-label="다음 해"' + (newer ? "" : " disabled") + ">→</button></div></header>" +
+      '<p class="year-summary">' + esc(meta.summary || "") + (counts ? " " + counts + "." : "") + "</p>" +
+      (groups || empty("이 해의 기록이 아직 없습니다.")) + "</article>";
+  }).join("") : empty("기록을 data.js에 추가하세요.");
+
+  var current = null;
+  function showYear(y, scroll) {
+    if (YEARS.indexOf(y) < 0) y = YEARS[0];
+    current = y;
+    document.querySelectorAll(".year-page").forEach(function (el) { el.hidden = +el.dataset.year !== y; });
+    document.querySelectorAll("#yearRail a").forEach(function (a) { a.setAttribute("aria-current", +a.dataset.year === y); });
+    if (scroll) $("timeline").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
   }
-  renderCerts();
-  $("certTabs").addEventListener("click", function (e) {
-    var b = e.target.closest("button[data-cat]");
-    if (!b) return;
-    current = b.getAttribute("data-cat");
-    try { localStorage.setItem("certTab", current); } catch (err) {}
-    renderCerts();
+  function yearFromHash() { var m = /^#y(\d{4})$/.exec(location.hash); return m ? +m[1] : null; }
+
+  showYear(yearFromHash() || YEARS[0], false);
+  if (yearFromHash()) $("timeline").scrollIntoView();
+
+  $("yearRail").addEventListener("click", function (e) {
+    var a = e.target.closest("a[data-year]"); if (!a) return;
+    e.preventDefault();
+    history.replaceState(null, "", "#y" + a.dataset.year);
+    showYear(+a.dataset.year, false);
+  });
+  $("yearPages").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-go]"); if (!b || b.disabled) return;
+    history.replaceState(null, "", "#y" + b.dataset.go);
+    showYear(+b.dataset.go, true);
+  });
+  window.addEventListener("hashchange", function () { var y = yearFromHash(); if (y) showYear(y, true); });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest("input, textarea, dialog[open]")) return;
+    var r = $("timeline").getBoundingClientRect();
+    if (r.top > window.innerHeight * .5 || r.bottom < 0) return;
+    var i = YEARS.indexOf(current);
+    if (e.key === "ArrowLeft" && YEARS[i + 1]) showYear(YEARS[i + 1], false);
+    if (e.key === "ArrowRight" && YEARS[i - 1]) showYear(YEARS[i - 1], false);
   });
 
   // ---------- skills ----------
-  $("skillList").innerHTML = D.skills.map(function (g) {
-    return '<div class="card"><h3>' + esc(g.group) + '</h3><ul class="chips">' +
+  $("skillList").innerHTML = (D.skills || []).map(function (g) {
+    return '<div class="card"><h3 class="card-label">' + esc(g.group) + '</h3><ul class="chips">' +
       g.items.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("") + "</ul></div>";
   }).join("");
 
   // ---------- image viewer ----------
   var viewer = $("viewer");
   document.addEventListener("click", function (e) {
-    var b = e.target.closest("[data-view]");
-    if (!b) return;
+    var b = e.target.closest("[data-view]"); if (!b) return;
     $("viewerImg").src = b.getAttribute("data-view");
     $("viewerImg").alt = b.getAttribute("data-caption");
     $("viewerCaption").textContent = b.getAttribute("data-caption");
@@ -170,11 +244,9 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (!en.isIntersecting) return;
-        navLinks.forEach(function (a) {
-          a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id);
-        });
+        navLinks.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id); });
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    document.querySelectorAll("main section[id]").forEach(function (s) { io.observe(s); });
+    document.querySelectorAll("main section[id], footer[id]").forEach(function (s) { io.observe(s); });
   }
 })();
