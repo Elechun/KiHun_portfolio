@@ -46,6 +46,7 @@ window.PORTFOLIO = {
       degree: "석사",                 // 학사 / 석사 / 박사
       status: "재학 중",              // 재학 중 / 졸업 / 졸업 예정
       school: "",                     // 예: "광운대학교 대학원"
+      schoolEn: "",                   // 영문 학교명 (두 번째 줄에 작게 표시)
       major: "",                      // 예: "컴퓨터공학과"
       lab: "",                        // 연구실 (선택)
       advisor: "",                    // 지도교수 (선택)
@@ -58,7 +59,8 @@ window.PORTFOLIO = {
     {
       degree: "학사",
       status: "졸업",
-      school: "광운대학교 (Kwangwoon University)",
+      school: "광운대학교",
+      schoolEn: "Kwangwoon University",
       major: "",                      // 예: "전자공학과"
       lab: "",
       advisor: "",
@@ -155,6 +157,49 @@ window.PORTFOLIO = {
       ],
       tech: ["PyTorch", "EfficientNet", "torchvision", "scikit-learn"],
       repo: "https://github.com/Elechun/Bazbiomedic",
+      image: ""
+    }
+  ],
+
+  // 교내·대외 활동 (학생회, 동아리, 봉사 등). Activities 섹션에 연도 탭으로 나옵니다.
+  // start ~ end 기간에 걸친 모든 연도 탭에 표시됩니다. end 를 비워 두면 "진행 중".
+  // category 는 탭 안에서 묶이는 분류이고, 아래 activityCategories 순서대로 나옵니다.
+  activityCategories: ["학생회", "동아리", "대외활동", "봉사", "교내 활동"],
+  activities: [
+    {
+      title: "[예시] 학과 학생회",
+      role: "[예시] 학술부장",
+      org: "광운대학교",
+      category: "학생회",
+      start: "2025.03",
+      end: "2026.02",
+      summary: "[예시] 학과 학술제와 선배 멘토링 프로그램을 기획·운영.",
+      highlights: ["[예시] 학술제 참가자 120명 규모 운영", "[예시] 신입생 멘토링 12개 조 편성"],
+      link: "",
+      image: ""
+    },
+    {
+      title: "[예시] AI 학술 동아리",
+      role: "[예시] 스터디 리더",
+      org: "광운대학교",
+      category: "동아리",
+      start: "2026.03",
+      end: "",
+      summary: "[예시] 의료 AI 논문 리딩 스터디를 주 1회 진행.",
+      highlights: [],
+      link: "",
+      image: ""
+    },
+    {
+      title: "[예시] 지역 아동센터 코딩 교육 봉사",
+      role: "[예시] 강사",
+      org: "[예시] OO구 지역아동센터",
+      category: "봉사",
+      start: "2025.07",
+      end: "2025.08",
+      summary: "[예시] 초등학생 대상 파이썬 기초 수업 8회.",
+      highlights: [],
+      link: "",
       image: ""
     }
   ],

@@ -161,7 +161,8 @@
     var gpa = gpaRow("전체 평점", e.gpa, max) + gpaRow("전공 평점", e.majorGpa, max);
     var labLine = [e.lab, e.advisor && "지도교수 " + e.advisor].filter(Boolean).join(" · ");
     return '<article class="card edu' + (gpa ? "" : " no-gpa") + '"><div><div class="badge-row">' + badge(e.degree, "accent") +
-      badge(e.status, e.status === "재학 중" ? "info" : "") + "</div><h3>" + esc(e.school || "학교 입력 전") + "</h3>" +
+      badge(e.status, e.status === "재학 중" ? "info" : "") + '</div><h3 class="school">' + esc(e.school || "학교 입력 전") +
+      (e.schoolEn ? "<small>" + esc(e.schoolEn) + "</small>" : "") + "</h3>" +
       (e.major ? '<p class="meta">' + esc(e.major) + "</p>" : "") + (labLine ? '<p class="meta">' + esc(labLine) + "</p>" : "") +
       (e.period ? '<p class="meta">' + esc(e.period) + "</p>" : "") +
       (e.notes && e.notes.length ? "<ul>" + e.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>" : "") +
@@ -255,6 +256,68 @@
     if (e.key === "ArrowLeft" && YEARS[i + 1]) showYear(YEARS[i + 1], false);
     if (e.key === "ArrowRight" && YEARS[i - 1]) showYear(YEARS[i - 1], false);
   });
+
+  // ---------- activities: 연도 탭 + 분류별 묶음 ----------
+  (function () {
+    var acts = D.activities || [];
+    var nowY = new Date().getFullYear();
+    function span(a) {
+      var s = parseDate(a.start), e = parseDate(a.end);
+      if (!s) return [];
+      var last = e ? e.y : Math.max(nowY, s.y), ys = [];
+      for (var y = s.y; y <= last; y++) ys.push(y);
+      return ys;
+    }
+    var byYear = {};
+    acts.forEach(function (a) { span(a).forEach(function (y) { (byYear[y] = byYear[y] || []).push(a); }); });
+    var ys = Object.keys(byYear).map(Number).sort(function (a, b) { return b - a; });
+    if (!ys.length) { $("activityPanels").innerHTML = empty("활동을 data.js의 activities에 추가하세요."); return; }
+
+    var order = (D.activityCategories || []).slice();
+    acts.forEach(function (a) { if (order.indexOf(a.category) < 0) order.push(a.category); });
+
+    function card(a) {
+      var period = esc(a.start) + " – " + (a.end ? esc(a.end) : "현재");
+      return '<article class="card act"><div class="act-side"><p class="act-period">' + period + "</p>" +
+        (a.end ? "" : badge("진행 중", "info")) + (a.role ? '<p class="act-role">' + esc(a.role) + "</p>" : "") +
+        '</div><div class="act-main"><h3>' + esc(a.title) + "</h3>" + (a.org ? '<p class="meta">' + esc(a.org) + "</p>" : "") +
+        (a.summary ? "<p>" + esc(a.summary) + "</p>" : "") +
+        (a.highlights && a.highlights.length ? '<ul class="highlights">' + a.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") + "</ul>" : "") +
+        '<div class="actions">' + linkBtn(a.link, "자세히") + imageBtn(a.image, a.title) + "</div></div></article>";
+    }
+
+    $("activityTabs").innerHTML = ys.map(function (y, i) {
+      return '<button type="button" role="tab" id="atab-' + y + '" aria-controls="apanel-' + y + '" aria-selected="' + (i === 0) +
+        '" tabindex="' + (i === 0 ? 0 : -1) + '">' + y + "<em>" + byYear[y].length + "</em></button>";
+    }).join("");
+    $("activityPanels").innerHTML = ys.map(function (y, i) {
+      var list = byYear[y];
+      var groups = order.map(function (c) {
+        var g = list.filter(function (a) { return a.category === c; });
+        if (!g.length) return "";
+        return '<div class="act-group"><h4>' + esc(c) + " · " + g.length + '</h4><div class="act-grid">' + g.map(card).join("") + "</div></div>";
+      }).join("");
+      return '<div class="act-panel" role="tabpanel" id="apanel-' + y + '" aria-labelledby="atab-' + y + '"' + (i === 0 ? "" : " hidden") + ">" + groups + "</div>";
+    }).join("");
+
+    function select(btn) {
+      $("activityTabs").querySelectorAll("button").forEach(function (b) {
+        var on = b === btn;
+        b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1;
+        $(b.getAttribute("aria-controls")).hidden = !on;
+      });
+    }
+    $("activityTabs").addEventListener("click", function (e) {
+      var b = e.target.closest("button[role=tab]"); if (b) select(b);
+    });
+    $("activityTabs").addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      var tabs = Array.prototype.slice.call(this.querySelectorAll("button"));
+      var i = tabs.indexOf(document.activeElement); if (i < 0) return;
+      var next = tabs[(i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length];
+      next.focus(); select(next); e.preventDefault(); e.stopPropagation();
+    });
+  })();
 
   // ---------- skills ----------
   $("skillList").innerHTML = (D.skills || []).map(function (g) {
