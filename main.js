@@ -128,17 +128,23 @@
   }
 
   var L = p.links || {};
+  var emails = (L.emails || []).concat(L.email ? [{ label: "Email", address: L.email }] : []);
+  function mailBtns(showAddress) {
+    return emails.map(function (m, i) {
+      return '<a class="btn' + (i === 0 ? " primary" : "") + '" href="mailto:' + esc(m.address) + '">' +
+        esc(showAddress ? m.label + " · " + m.address : m.label) + "</a>";
+    }).join("");
+  }
   var links = [
-    L.email && '<a class="btn primary" href="mailto:' + esc(L.email) + '">Email</a>',
     L.phone && '<a class="btn" href="tel:' + esc(L.phone.replace(/[^0-9+]/g, "")) + '">' + esc(L.phone) + "</a>",
     L.cv && '<a class="btn" href="' + esc(L.cv) + '" target="_blank" rel="noopener">CV (PDF)</a>',
     L.github && '<a class="btn" href="' + esc(L.github) + '" target="_blank" rel="noopener">GitHub</a>',
     L.linkedin && '<a class="btn" href="' + esc(L.linkedin) + '" target="_blank" rel="noopener">LinkedIn</a>',
     L.scholar && '<a class="btn" href="' + esc(L.scholar) + '" target="_blank" rel="noopener">Google Scholar</a>'
   ].filter(Boolean).join("");
-  $("heroLinks").innerHTML = links;
+  $("heroLinks").innerHTML = mailBtns(false) + links;
   // 푸터에서는 메일 주소를 그대로 보여 줘서 복사할 수 있게
-  $("footerLinks").innerHTML = L.email ? links.replace(">Email</a>", ">" + esc(L.email) + "</a>") : links;
+  $("footerLinks").innerHTML = mailBtns(true) + links;
   $("copyright").textContent = "© " + new Date().getFullYear() + " " + p.name + " · " + p.location;
 
   function done(key) { return (D[key] || []).filter(function (x) { return !x.planned; }).length; }
