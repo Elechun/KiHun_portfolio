@@ -39,9 +39,9 @@ window.PORTFOLIO = {
 
   education: [
     {
-      school: "[예시] OO대학교",
-      degree: "학사 · 의공학과 (부전공: 컴퓨터공학)",
-      period: "2021.03 – 2027.02 (예정)",
+      school: "광운대학교 (Kwangwoon University)",
+      degree: "[예시] 학사 · 의공학과 (부전공: 컴퓨터공학)",
+      period: "[예시] 2021.03 – 2027.02 (예정)",
       gpa: 4.12,
       gpaMax: 4.5,
       majorGpa: 4.25,
@@ -86,16 +86,59 @@ window.PORTFOLIO = {
       date: "2026.01", // Date of Publication: 14 January 2026
       summary: "매트리스 토퍼 아래에 둔 PVDF 필름 센서로 몸에 아무것도 붙이지 않고 수면무호흡을 검출하는 Conv-ViT 모델. 수면다원검사(PSG)를 받은 121명의 데이터로 학습하고, LoRA 튜닝으로 사용자별 맞춤 모니터링을 구현.",
       link: "https://ieeexplore.ieee.org/document/11353375"
+    }
+  ],
+
+  // 개인 프로젝트. status: "완료" | "진행 중"
+  // highlights 는 Projects 섹션에만, summary 는 Projects 와 연도별 타임라인 둘 다에 나옵니다.
+  projects: [
+    {
+      title: "저선량 흉부 X-ray 디노이저 — 진단 성능 기준 평가",
+      subtitle: "How far can chest X-ray dose fall before the diagnosis goes with it?",
+      date: "2026.09",
+      status: "완료",
+      summary: "검출기 물리 모델(Poisson–Gaussian)로 저선량 촬영을 시뮬레이션하고, 디노이저를 PSNR이 아니라 고정된 판독 모델(DenseNet-121)의 진단 AUC로 평가.",
+      highlights: [
+        "선량 1%에서 판독 AUC 0.502(찍기 수준) → 디노이징 후 0.720 (전선량 0.729)",
+        "NIH ChestX-ray14, 학습셋과 환자가 겹치지 않는 검증 1,026장 · 95% 부트스트랩 신뢰구간",
+        "대조 실험(linear probe, Gaussian blur)으로 회복분 중 상당 부분이 분포 이동 보정임을 직접 검증",
+        "read noise 4배 오차에도 성능 유지 — 노이즈 모델 오차에 대한 강건성 분석"
+      ],
+      tech: ["PyTorch", "U-Net", "VST", "Noise2Noise / Noise2Void", "torchxrayvision"],
+      repo: "https://github.com/Elechun/View-works",
+      image: "assets/projects/view-works-dose-auc.png"
     },
     {
-      title: "[예시] A Lightweight Transformer for Real-time Arrhythmia Detection on Wearable Devices",
-      authors: "기훈*, 홍길동, 김철수 (*first author)",
-      target: "[예시] IEEE Journal of Biomedical and Health Informatics",
-      status: "In preparation",
+      title: "DWI 기반 급성 뇌경색 병변 분할 · 뇌졸중 병인 분류",
+      subtitle: "Acute ischemic stroke lesion segmentation and etiology classification",
       date: "2026.09",
-      expected: "2026 Q4 투고 예정",
-      summary: "[예시] 모바일 환경에서 동작 가능한 경량 트랜스포머로 기존 대비 연산량 70% 절감, F1 0.94 달성.",
-      link: ""
+      status: "진행 중",
+      summary: "공개 데이터 OpenNeuro SOOP(급성 뇌졸중 1,715명, DWI+ADC)로 병변 분할 → 부피 산출 → 병인 분류까지 전 과정을 직접 구현.",
+      highlights: [
+        "2D U-Net(DWI·ADC 2채널) 분할, 환자 단위 3D Dice · 검출 민감도 · 병변 부피 ICC/Bland–Altman 평가 설계",
+        "병변 특징 + 임상변수(NIHSS 등)로 병인 4클래스 분류, 크기 특징 포함/제외 비교로 지름길 학습 점검",
+        "여러 AI 에이전트로 데이터 · 방법론 · 누수 진단을 교차검증하는 연구 워크플로 구축",
+        "환자 단위 split(시드 고정), 단위 테스트 15개"
+      ],
+      tech: ["PyTorch", "U-Net", "MRI (DWI/ADC)", "nibabel", "scikit-learn"],
+      repo: "https://github.com/Elechun/JLK-",
+      image: ""
+    },
+    {
+      title: "ScalpAI — 두피 영상 다중 증상 중증도 분류",
+      subtitle: "Multi-symptom severity grading from scalp microscopy",
+      date: "2026.09",
+      status: "진행 중",
+      summary: "AI Hub '유형별 두피 이미지'(약 10만 장)로 사진 한 장에서 6개 증상의 중증도(4등급)를 동시에 예측하고, 시술 전후 변화를 리포트.",
+      highlights: [
+        "EfficientNet-B0 백본 + 증상별 6개 헤드, 결측 라벨 마스킹 손실",
+        "순서형 지표 QWK · within-1 · macro-F1, 피험자 단위 분할과 데이터 누수 점검",
+        "시술 전후 사진 비교 리포트 기능",
+        "더미 데이터로 전체 파이프라인 검증 완료 · 실제 데이터 학습 예정"
+      ],
+      tech: ["PyTorch", "EfficientNet", "torchvision", "scikit-learn"],
+      repo: "https://github.com/Elechun/Bazbiomedic",
+      image: ""
     }
   ],
 

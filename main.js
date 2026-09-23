@@ -15,6 +15,9 @@
   function linkBtn(href, label) {
     return href ? '<a class="btn small" href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + "</a>" : "";
   }
+  function techChips(list) {
+    return list && list.length ? '<ul class="chips tech">' + list.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" : "";
+  }
   // 저자 목록에서 본인 이름만 굵게
   function authorsHtml(s) {
     var me = D.profile.authorName;
@@ -42,6 +45,11 @@
         '</h3><p class="meta">' + authorsHtml(x.authors) + "</p>" + venue +
         (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + linkBtn(x.link, "논문 보기") +
         linkBtn(x.doi && "https://doi.org/" + x.doi, "DOI " + x.doi) + "</div>";
+    } },
+    { key: "projects", ko: "프로젝트", render: function (x) {
+      return '<div class="badge-row">' + badge(x.status, x.status === "완료" ? "ok" : "info") + "</div><h3>" + esc(x.title) +
+        "</h3>" + (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + techChips(x.tech) +
+        '<div class="actions">' + linkBtn(x.repo, "GitHub") + '<a class="btn small" href="#projects">자세히</a></div>';
     } },
     { key: "conferences", ko: "학회 발표", render: function (x) {
       return '<div class="badge-row">' + badge(x.type, "accent") + (x.award ? badge("🏆 " + x.award, "warn") : "") + "</div><h3>" +
@@ -126,6 +134,7 @@
   $("stats").innerHTML = [
     ["특허", done("patents")],
     ["논문", done("publications")],
+    ["프로젝트", done("projects")],
     ["학회 발표", done("conferences")],
     ["자격 · 어학", done("licenses") + done("languages")],
     ["수료 · 교육", done("certificates")]
@@ -152,6 +161,19 @@
     return "<li><div><b>" + esc(c.title) + "</b>" + (sub ? "<small>" + esc(sub) + "</small>" : "") + "</div>" + right + "</li>";
   }).join("") : '<li class="muted">자격증·어학 성적을 data.js에 추가하세요.</li>';
   $("interests").innerHTML = (D.interests || []).map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("");
+
+  // ---------- projects ----------
+  $("projectList").innerHTML = (D.projects || []).length ? D.projects.map(function (x) {
+    return '<article class="card project' + (x.image ? " has-figure" : "") + '"><div class="project-body">' +
+      '<div class="badge-row">' + badge(x.status, x.status === "완료" ? "ok" : "info") + badge(x.date) + "</div>" +
+      "<h3>" + esc(x.title) + "</h3>" + (x.subtitle ? '<p class="subtitle">' + esc(x.subtitle) + "</p>" : "") +
+      (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
+      (x.highlights && x.highlights.length ? '<ul class="highlights">' + x.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") + "</ul>" : "") +
+      techChips(x.tech) + '<div class="actions">' + linkBtn(x.repo, "GitHub 저장소") + "</div></div>" +
+      (x.image ? '<button class="project-figure" type="button" data-view="' + esc(x.image) + '" data-caption="' + esc(x.title) +
+        '" aria-label="그림 크게 보기"><img src="' + esc(x.image) + '" alt="' + esc(x.title) + ' 결과 그래프" loading="lazy"></button>' : "") +
+      "</article>";
+  }).join("") : empty("프로젝트를 data.js에 추가하세요.");
 
   // ---------- timeline: 연도별 페이지 ----------
   var MON = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];

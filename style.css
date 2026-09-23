@@ -162,7 +162,7 @@ a:hover { text-decoration: underline; }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn.small { padding: 5px 12px; font-size: 13px; }
 
-.stats { margin: 44px 0 0; width: 100%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.stats { margin: 44px 0 0; width: 100%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
 .stats div { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; text-align: left; box-shadow: var(--shadow); }
 .stats dt { color: var(--muted); font-size: 13px; }
 .stats dd { margin: 2px 0 0; font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -214,6 +214,20 @@ a:hover { text-decoration: underline; }
 .cred-list li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); font-size: 14px; }
 .cred-list b { font-weight: 600; }
 .cred-list small { display: block; color: var(--muted); font-size: 12px; }
+
+/* projects */
+.projects { display: grid; gap: 16px; }
+.project { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 26px; }
+.project.has-figure { grid-template-columns: 1.25fr 1fr; align-items: center; }
+.project-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.project h3 { font-size: 20px; }
+.project .subtitle { font-size: 14px; color: var(--muted); font-style: italic; margin-top: -4px; }
+.highlights { margin: 4px 0 4px; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.highlights li::marker { color: var(--accent); }
+.chips.tech li { background: var(--surface-2); color: var(--text); font-size: 12px; padding: 2px 10px; }
+.project-figure { padding: 10px; margin: 0; border: 1px solid var(--border); border-radius: 12px; background: #fff; cursor: zoom-in; display: block; width: 100%; }
+.project-figure img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.project .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
 
 /* ---------- timeline (A: 연도 레일 + B: 연차보고서 머리말) ---------- */
 .tl { display: grid; grid-template-columns: 170px 1fr; gap: 32px; align-items: start; }
@@ -276,6 +290,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 900px) {
   .stats { grid-template-columns: repeat(3, 1fr); }
   .about-grid { grid-template-columns: 1fr; }
+  .project.has-figure { grid-template-columns: 1fr; }
   .skills { grid-template-columns: repeat(2, 1fr); }
   .tl { grid-template-columns: 1fr; gap: 20px; }
   .year-rail { top: 60px; z-index: 5; background: var(--bg); padding: 8px 0; margin: -8px 0 0; }
