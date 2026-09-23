@@ -67,8 +67,16 @@
         '</h3><p class="meta">' + esc(detail) + '</p><div class="actions">' + imageBtn(x.image, x.title) + "</div>";
     } },
     { key: "certificates", ko: "수료 · 교육", render: function (x) {
-      return '<div class="badge-row">' + badge(x.category, "accent") + "</div><h3>" + esc(x.title) + '</h3><p class="meta">' +
-        esc(x.issuer) + "</p>" + (x.period || x.number ? '<p class="meta">' + esc([x.period, x.number].filter(Boolean).join(" · ")) + "</p>" : "") +
+      var prog = "";
+      if (x.courses && x.courses.length) {
+        var n = x.courses.filter(function (c) { return c.done; }).length, total = x.courses.length;
+        prog = '<div class="progress"><div class="progress-label"><span>강좌 ' + n + " / " + total + ' 완료</span></div>' +
+          '<div class="bar"><i style="width:' + (n / total * 100) + '%"></i></div><ol class="course-list">' +
+          x.courses.map(function (c) { return '<li class="' + (c.done ? "done" : "") + '">' + esc(c.title) + "</li>"; }).join("") + "</ol></div>";
+      }
+      var status = x.courses && x.planned ? badge("진행 중", "info") : "";
+      return '<div class="badge-row">' + badge(x.category, "accent") + status + "</div><h3>" + esc(x.title) + '</h3><p class="meta">' +
+        esc(x.issuer) + "</p>" + prog + (x.period || x.number ? '<p class="meta">' + esc([x.period, x.number].filter(Boolean).join(" · ")) + "</p>" : "") +
         '<div class="actions">' + linkBtn(x.credentialUrl, "Credential") + imageBtn(x.image, x.title) + "</div>";
     } }
   ];

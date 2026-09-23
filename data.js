@@ -55,8 +55,7 @@ window.PORTFOLIO = {
   // 연도별 페이지 머리말: 한 줄 회고 + 그 해 평점(선택)
   years: {
     "2026": { summary: "[예시] 연구를 논문으로 정리하는 해.", gpa: 4.30 },
-    "2025": { summary: "[예시] 첫 특허 등록과 첫 구두 발표를 해낸 해.", gpa: 4.18 },
-    "2024": { summary: "[예시] 의료 AI를 본격적으로 공부하기 시작한 해.", gpa: 4.05 }
+    "2025": { summary: "[예시] 첫 특허 등록과 첫 구두 발표를 해낸 해.", gpa: 4.18 }
   },
 
   // status: "등록" | "출원"
@@ -211,7 +210,33 @@ window.PORTFOLIO = {
 
   // category: 수료증 카드 뱃지 ("Coursera", "학교", "기타" 등 자유롭게)
   // period / number 는 선택 (교육기간, 수료번호)
+  // courses 가 있는 항목은 여러 강좌로 된 과정의 진행률로 표시됩니다. 강좌를 끝내면 done: true 로 바꾸고,
+  // 받은 강좌 수료증은 아래에 별도 항목으로 추가하세요. 전부 끝나면 planned 를 지우면 됩니다.
   certificates: [
+    {
+      title: "AI in Healthcare Specialization",
+      issuer: "Stanford Online · Coursera",
+      category: "Coursera",
+      date: "2026.09",
+      planned: true,
+      courses: [
+        { title: "Introduction to Healthcare", done: true },
+        { title: "Introduction to Clinical Data", done: false },
+        { title: "Fundamentals of Machine Learning for Healthcare", done: false },
+        { title: "Evaluations of AI Applications in Healthcare", done: false },
+        { title: "AI in Healthcare Capstone", done: false }
+      ],
+      credentialUrl: "",
+      image: ""
+    },
+    {
+      title: "Introduction to Healthcare",
+      issuer: "Stanford Online · Coursera",
+      category: "Coursera",
+      date: "2026.09", // 2026.09.09 발급
+      credentialUrl: "https://coursera.org/verify/7CRMA9X6BYWE",
+      image: "assets/certificates/coursera-intro-to-healthcare.jpg"
+    },
     {
       title: "NIPA-NVIDIA AI 전문가 과정 (1단계)",
       issuer: "정보통신산업진흥원(NIPA) · 수도권 ICT이노베이션스퀘어",
@@ -223,34 +248,10 @@ window.PORTFOLIO = {
       image: "assets/certificates/nipa-nvidia-ai-2025.jpg" // 생년월일 가림 처리한 이미지
     },
     {
-      title: "[예시] Generative AI for Healthcare",
-      issuer: "Coursera",
-      category: "Coursera",
-      date: "2026.01",
-      credentialUrl: "",
-      image: ""
-    },
-    {
       title: "[예시] 의료 인공지능 전문인력 양성 교육",
       issuer: "OO대학교 산학협력단",
       category: "학교",
       date: "2025.02",
-      credentialUrl: "",
-      image: ""
-    },
-    {
-      title: "[예시] AI for Medicine Specialization",
-      issuer: "DeepLearning.AI · Coursera",
-      category: "Coursera",
-      date: "2024.12",
-      credentialUrl: "",
-      image: ""
-    },
-    {
-      title: "[예시] Machine Learning Specialization",
-      issuer: "Stanford & DeepLearning.AI · Coursera",
-      category: "Coursera",
-      date: "2024.06",
       credentialUrl: "",
       image: ""
     }
