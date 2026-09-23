@@ -232,6 +232,7 @@ a:hover { text-decoration: underline; }
 .project.has-figure { grid-template-columns: 1.25fr 1fr; align-items: center; }
 .project-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .project h3 { font-size: 20px; }
+.entry .subtitle { font-size: 14px; color: var(--muted); font-style: italic; margin-top: -2px; }
 .project .subtitle { font-size: 14px; color: var(--muted); font-style: italic; margin-top: -4px; }
 .highlights { margin: 4px 0 4px; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
 .highlights li::marker { color: var(--accent); }

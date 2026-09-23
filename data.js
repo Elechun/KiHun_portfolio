@@ -79,19 +79,21 @@ window.PORTFOLIO = {
   // 연도별 페이지 머리말: 한 줄 회고 + 그 해 평점(선택)
   years: {
     "2026": { summary: "[예시] 연구를 논문으로 정리하는 해.", gpa: null },
-    "2025": { summary: "[예시] 첫 특허 등록과 첫 구두 발표를 해낸 해.", gpa: null }
+    "2025": { summary: "[예시] 첫 특허를 출원한 해.", gpa: null }
   },
 
-  // status: "등록" | "출원"
+  // status: "등록" | "출원". 등록되면 status 를 "등록"으로, number 를 등록번호로 바꾸세요.
   patents: [
     {
-      title: "[예시] 딥러닝 기반 심전도 이상 탐지 장치 및 방법",
-      status: "등록",
-      number: "제10-0000000호",
-      date: "2025.08",
-      inventors: "홍길동, 전기헌 외 2인",
-      summary: "[예시] 단일 리드 심전도 신호에서 부정맥을 실시간으로 검출하는 경량 신경망 구조 및 이를 탑재한 웨어러블 장치.",
-      image: "" // 예: "assets/patents/patent-1.jpg"
+      title: "개인맞춤형 수면 자세 추론 온디바이스 인공지능 모델 제공 장치 및 방법",
+      titleEn: "Device and method for providing an on-device AI model for inferring personalized sleep postures",
+      status: "출원",
+      number: "출원번호 10-2025-0182152",
+      date: "2025.11", // 출원일 2025.11.26
+      inventors: "최상호, 전기헌",
+      applicant: "광운대학교 산학협력단",
+      summary: "침대에 설치한 FSR·PVDF 센서 신호로 수면 자세를 분류하는 멀티모달 AI 모델을, 사용자 기기에서 적은 파라미터만 미세 조정(PEFT)해 개인 맞춤형으로 만들고 온디바이스로 실시간 추론.",
+      image: "assets/patents/patent-10-2025-0182152.jpg" // 출원번호통지서 (개인정보 없음)
     }
   ],
 

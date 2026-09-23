@@ -32,8 +32,10 @@
   // ---------- 기록 종류 정의: 순서 = 연도 페이지에서 그룹 순서 ----------
   var TYPES = [
     { key: "patents", ko: "특허", render: function (x) {
-      return '<div class="badge-row">' + badge(x.status, x.status === "등록" ? "ok" : "info") + "</div><h3>" + esc(x.title) +
-        '</h3><p class="meta">' + esc([x.number, x.inventors].filter(Boolean).join(" · ")) + "</p>" +
+      return '<div class="badge-row">' + badge(x.status, x.status === "등록" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
+        (x.titleEn ? '<p class="subtitle">' + esc(x.titleEn) + "</p>" : "") +
+        '<p class="meta">' + esc([x.number, x.applicant].filter(Boolean).join(" · ")) + "</p>" +
+        (x.inventors ? '<p class="meta">발명자 · ' + esc(x.inventors) + "</p>" : "") +
         (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + imageBtn(x.image, x.title) + "</div>";
     } },
     { key: "publications", ko: "논문", render: function (x) {
