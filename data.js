@@ -3,8 +3,8 @@
  * [예시] 라고 표시된 값들을 실제 내용으로 바꿔 주세요.
  *
  * - 모든 기록은 date: "YYYY.MM" 을 기준으로 연도별 페이지에 자동 배치됩니다.
- * - 아직 안 한 일(응시 예정 등)은 planned: true 로 두면 "예정" 표시가 붙습니다.
- * - 이미지(특허증, 자격증, 수료증)는 assets/ 폴더에 넣고 image 에 경로를 적으면 "증빙 보기" 버튼이 생깁니다.
+ * - 아직 안 한 일(응시 예정 등)은 planned: true 로 두면 "Planned" 표시가 붙습니다.
+ * - 이미지(특허증, 자격증, 수료증)는 assets/ 폴더에 넣고 image 에 경로를 적으면 "Certificate" 같은 보기 버튼이 생깁니다.
  * - 항목 추가는 { ... } 블록을 복사해서 배열에 붙여 넣으면 됩니다.
  */
 window.PORTFOLIO = {
@@ -43,12 +43,12 @@ window.PORTFOLIO = {
   ],
 
   // 학력: 최신 학위부터 위에 적습니다.
-  // gpa / majorGpa 는 숫자로 적으면(예: 4.12) "평점 4.12 / 4.5" 처럼 한 줄 정보로 나오고, null 이면 표시되지 않습니다.
+  // gpa / majorGpa 는 숫자로 적으면(예: 4.12) "GPA 4.12 / 4.5" 처럼 한 줄 정보로 나오고, null 이면 표시되지 않습니다.
   // gpaMax 는 만점 기준 (4.5 또는 4.3). 비어 있는 칸("")은 사이트에서 자동으로 빠집니다.
   education: [
     {
-      degree: "석사",                 // 학사 / 석사 / 박사
-      status: "재학 중",              // 재학 중 / 졸업 / 졸업 예정
+      degree: "M.S.",                 // B.S. / M.S. / Ph.D.
+      status: "Current",              // Current / Graduated / Expected
       school: "광운대학교",
       schoolEn: "Kwangwoon University", // 영문 학교명 (두 번째 줄에 작게 표시)
       major: "컴퓨터공학과",
@@ -56,15 +56,15 @@ window.PORTFOLIO = {
       lab: "Healthcare & AI Lab (HAI)", // 연구실 (선택)
       labUrl: "https://sites.google.com/view/hai-lab",
       advisor: "최상호 교수",          // 지도교수 (선택)
-      period: "2025.09 – 현재",
+      period: "2025.09 – Present",
       gpa: 4.41,                      // 전체 평점
       gpaMax: 4.5,
       majorGpa: null,
       notes: []                       // 예: ["연구 주제: 비접촉 생체신호 기반 수면 모니터링"]
     },
     {
-      degree: "학사",
-      status: "졸업",
+      degree: "B.S.",
+      status: "Graduated",
       school: "광운대학교",
       schoolEn: "Kwangwoon University",
       major: "컴퓨터정보공학부 (지능정보공학 전공)",
@@ -86,13 +86,13 @@ window.PORTFOLIO = {
     "2025": { summary: "[예시] 첫 특허를 출원한 해.", gpa: null }
   },
 
-  // status: "등록" | "출원". 등록되면 status 를 "등록"으로, number 를 등록번호로 바꾸세요.
+  // status: "Pending"(출원) | "Granted"(등록). 등록되면 status 를 "Granted"로, number 를 "Patent No. …"로 바꾸세요.
   patents: [
     {
       title: "개인맞춤형 수면 자세 추론 온디바이스 인공지능 모델 제공 장치 및 방법",
       titleEn: "Device and method for providing an on-device AI model for inferring personalized sleep postures",
-      status: "출원",
-      number: "출원번호 10-2025-0182152",
+      status: "Pending",
+      number: "Application No. 10-2025-0182152",
       date: "2025.11", // 출원일 2025.11.26
       inventors: "최상호, 전기헌",
       applicant: "광운대학교 산학협력단",
@@ -118,14 +118,14 @@ window.PORTFOLIO = {
     }
   ],
 
-  // 개인 프로젝트. status: "완료" | "진행 중"
+  // 개인 프로젝트. status: "Completed" | "In Progress"
   // highlights 는 Projects 섹션에만, summary 는 Projects 와 연도별 타임라인 둘 다에 나옵니다.
   projects: [
     {
       title: "저선량 흉부 X-ray 디노이저 — 진단 성능 기준 평가",
       subtitle: "How far can chest X-ray dose fall before the diagnosis goes with it?",
       date: "2026.09",
-      status: "완료",
+      status: "Completed",
       summary: "검출기 물리 모델(Poisson–Gaussian)로 저선량 촬영을 시뮬레이션하고, 디노이저를 PSNR이 아니라 고정된 판독 모델(DenseNet-121)의 진단 AUC로 평가.",
       highlights: [
         "선량 1%에서 판독 AUC 0.502(찍기 수준) → 디노이징 후 0.720 (전선량 0.729)",
@@ -141,7 +141,7 @@ window.PORTFOLIO = {
       title: "DWI 기반 급성 뇌경색 병변 분할 · 뇌졸중 병인 분류",
       subtitle: "Acute ischemic stroke lesion segmentation and etiology classification",
       date: "2026.09",
-      status: "진행 중",
+      status: "In Progress",
       summary: "공개 데이터 OpenNeuro SOOP(급성 뇌졸중 1,715명, DWI+ADC)로 병변 분할 → 부피 산출 → 병인 분류까지 전 과정을 직접 구현.",
       highlights: [
         "2D U-Net(DWI·ADC 2채널) 분할, 환자 단위 3D Dice · 검출 민감도 · 병변 부피 ICC/Bland–Altman 평가 설계",
@@ -157,7 +157,7 @@ window.PORTFOLIO = {
       title: "ScalpAI — 두피 영상 다중 증상 중증도 분류",
       subtitle: "Multi-symptom severity grading from scalp microscopy",
       date: "2026.09",
-      status: "진행 중",
+      status: "In Progress",
       summary: "AI Hub '유형별 두피 이미지'(약 10만 장)로 사진 한 장에서 6개 증상의 중증도(4등급)를 동시에 예측하고, 시술 전후 변화를 리포트.",
       highlights: [
         "EfficientNet-B0 백본 + 증상별 6개 헤드, 결측 라벨 마스킹 손실",
@@ -172,15 +172,15 @@ window.PORTFOLIO = {
   ],
 
   // 교내·대외 활동 (학생회, 동아리, 봉사 등). Activities 섹션에 연도 탭으로 나옵니다.
-  // start ~ end 기간에 걸친 모든 연도 탭에 표시됩니다. end 를 비워 두면 "진행 중".
+  // start ~ end 기간에 걸친 모든 연도 탭에 표시됩니다. end 를 비워 두면 "Ongoing".
   // category 는 탭 안에서 묶이는 분류이고, 아래 activityCategories 순서대로 나옵니다.
-  activityCategories: ["학생회", "동아리", "대외활동", "봉사", "교내 활동"],
+  activityCategories: ["Student Council", "Clubs", "External", "Volunteering", "Campus"],
   activities: [
     {
       title: "[예시] 학과 학생회",
       role: "[예시] 학술부장",
       org: "광운대학교",
-      category: "학생회",
+      category: "Student Council",
       start: "2025.03",
       end: "2026.02",
       summary: "[예시] 학과 학술제와 선배 멘토링 프로그램을 기획·운영.",
@@ -192,7 +192,7 @@ window.PORTFOLIO = {
       title: "[예시] AI 학술 동아리",
       role: "[예시] 스터디 리더",
       org: "광운대학교",
-      category: "동아리",
+      category: "Clubs",
       start: "2026.03",
       end: "",
       summary: "[예시] 의료 AI 논문 리딩 스터디를 주 1회 진행.",
@@ -204,7 +204,7 @@ window.PORTFOLIO = {
       title: "[예시] 지역 아동센터 코딩 교육 봉사",
       role: "[예시] 강사",
       org: "[예시] OO구 지역아동센터",
-      category: "봉사",
+      category: "Volunteering",
       start: "2025.07",
       end: "2025.08",
       summary: "[예시] 초등학생 대상 파이썬 기초 수업 8회.",
@@ -275,13 +275,13 @@ window.PORTFOLIO = {
       title: "TOEIC Speaking",
       date: "2026.11", // [예시] 응시 예정 연월
       planned: true,
-      goal: "IH 이상",
+      goal: "IH or higher",
       score: "",
       image: ""
     }
   ],
 
-  // category: 수료증 카드 뱃지 ("Coursera", "학교", "기타" 등 자유롭게)
+  // category: 수료증 카드 뱃지 ("Coursera", "University", "NIPA" 등 자유롭게)
   // period / number 는 선택 (교육기간, 수료번호)
   // courses 가 있는 항목은 여러 강좌로 된 과정의 진행률로 표시됩니다. 강좌를 끝내면 done: true 로 바꾸고,
   // 받은 강좌 수료증은 아래에 별도 항목으로 추가하세요. 전부 끝나면 planned 를 지우면 됩니다.
@@ -323,7 +323,7 @@ window.PORTFOLIO = {
     {
       title: "[예시] 의료 인공지능 전문인력 양성 교육",
       issuer: "OO대학교 산학협력단",
-      category: "학교",
+      category: "University",
       date: "2025.02",
       credentialUrl: "",
       image: ""
