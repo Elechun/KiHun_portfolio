@@ -230,10 +230,39 @@ a:hover { text-decoration: underline; }
 .course-list li.done { color: var(--text); }
 .course-list li.done::before { content: "✓"; color: var(--ok); font-weight: 700; }
 
+/* 접었다 펴는 카드 */
+details.card.fold { display: block; padding: 0; }
+.fold > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; padding: 18px 20px; border-radius: var(--radius); }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary:hover .chev { background: var(--accent-soft); border-color: var(--accent); }
+.fold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fold-head { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fold-head h3 { margin: 0; }
+.fold-head p { margin: 0; }
+.chev { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); position: relative; transition: transform .2s, background .2s; }
+.chev::before { content: ""; position: absolute; left: 50%; top: 45%; width: 7px; height: 7px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translate(-50%, -50%) rotate(45deg); }
+.fold[open] > summary .chev { transform: rotate(180deg); }
+.fold-body { display: flex; flex-direction: column; gap: 8px; padding: 0 20px 20px; margin-top: -4px; }
+.fold-body p { margin: 0; }
+.fold-body > :first-child { padding-top: 14px; border-top: 1px dashed var(--border); }
+.fold-body > .project-detail:first-child, .fold-body > .progress:first-child { padding-top: 14px; }
+.fold-body .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.project.fold > summary, .project .fold-body { padding-left: 26px; padding-right: 26px; }
+.act.fold { padding: 0; }
+.act.fold > summary { padding: 20px 24px; }
+.act.fold .fold-body { padding-left: 24px; padding-right: 24px; }
+.fold-all { margin-left: auto; font: inherit; font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--muted); background: none;
+  border: 1px solid var(--border); border-radius: 999px; padding: 5px 14px; cursor: pointer; }
+.fold-all:hover { color: var(--text); border-color: var(--accent); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .chev { transition: none; } }
+
 /* projects */
 .projects { display: grid; gap: 16px; }
-.project { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 26px; }
-.project.has-figure { grid-template-columns: 1.25fr 1fr; align-items: center; }
+.project { padding: 22px 26px; }
+.project .lead { margin: 2px 0 0; color: var(--muted); }
+.project-detail { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.project-detail.has-figure { grid-template-columns: 1.25fr 1fr; align-items: center; }
 .project-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .project h3 { font-size: 20px; }
 .entry .subtitle { font-size: 14px; color: var(--muted); font-style: italic; margin-top: -2px; }
@@ -305,7 +334,11 @@ a:hover { text-decoration: underline; }
 .act-group + .act-group { margin-top: 28px; }
 .act-group h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
 .act-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.card.act { display: grid; grid-template-columns: 190px 1fr; gap: 24px; padding: 20px 24px; }
+.card.act { padding: 20px 24px; }
+.card.act:not(.fold), .act > summary { display: grid; grid-template-columns: 190px 1fr auto; gap: 24px; }
+.card.act:not(.fold) { grid-template-columns: 190px 1fr; }
+.act > summary > .fold-head { display: contents; }
+.act .fold-body { margin-left: 214px; }
 .act-side { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
 .act-period { margin: 0; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .act-role { margin: 0; font-size: 14px; color: var(--accent); font-weight: 600; }
@@ -335,7 +368,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 900px) {
   .stats { grid-template-columns: repeat(3, 1fr); }
   .about-grid { grid-template-columns: 1fr; }
-  .project.has-figure { grid-template-columns: 1fr; }
+  .project-detail.has-figure { grid-template-columns: 1fr; }
   .skills { grid-template-columns: repeat(2, 1fr); }
   .tl { grid-template-columns: 1fr; gap: 20px; }
   .year-rail { top: 60px; z-index: 5; background: var(--bg); padding: 8px 0; margin: -8px 0 0; }
@@ -343,7 +376,12 @@ a:hover { text-decoration: underline; }
   .year-rail a { gap: 8px; white-space: nowrap; padding: 8px 14px; }
 }
 @media (max-width: 640px) {
-  .card.act { grid-template-columns: 1fr; gap: 10px; }
+  .card.act:not(.fold), .act > summary { grid-template-columns: 1fr auto; gap: 10px; }
+  .card.act:not(.fold) { grid-template-columns: 1fr; }
+  .act-side { grid-column: 1; }
+  .act-main { grid-column: 1; }
+  .act > summary > .chev { grid-column: 2; grid-row: 1; }
+  .act .fold-body { margin-left: 0; }
   .act-side { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; }
   .year-tabs button { font-size: 22px; padding: 8px 16px 12px; }
   .hero { padding: 36px 0 16px; }
@@ -366,7 +404,7 @@ a:hover { text-decoration: underline; }
 /* ---------- print (PDF 저장용): 모든 연도를 펼쳐서 출력 ---------- */
 @media print {
   :root { --bg: #fff; --surface: #fff; --shadow: none; }
-  .topbar, .year-rail, .arrows, .actions, .viewer, .caret, .hello-arrow, .avatar-wrap::before { display: none !important; }
+  .topbar, .year-rail, .arrows, .actions, .fold-all, .chev, .viewer, .caret, .hello-arrow, .avatar-wrap::before { display: none !important; }
   .tl { grid-template-columns: 1fr; }
   .year-page[hidden] { display: block; }
   .year-page { break-before: page; }

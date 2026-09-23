@@ -29,46 +29,74 @@
     return m ? { y: +m[1], m: +m[2] } : null;
   }
 
+  // 접었다 펼 수 있는 카드: head 는 항상 보이고, body 는 펼쳤을 때만 보임 (body 가 비면 그냥 카드)
+  function fold(cls, head, body) {
+    if (!body.replace(/<div class="actions"><\/div>/g, "").trim()) return '<article class="card ' + cls + '">' + head + "</article>";
+    return '<details class="card fold ' + cls + '"><summary><div class="fold-head">' + head + "</div>" +
+      '<span class="chev" aria-hidden="true"></span><span class="sr-only">자세히 보기</span></summary><div class="fold-body">' + body + "</div></details>";
+  }
+  function actions() {
+    var html = Array.prototype.join.call(arguments, "");
+    return html ? '<div class="actions">' + html + "</div>" : "";
+  }
+  function yearOf(d) { var p = parseDate(d); return p ? String(p.y) : ""; }
+
   // ---------- 기록 종류 정의: 순서 = 연도 페이지에서 그룹 순서 ----------
+  // head: 접힌 상태에서 보이는 제목·한 줄 설명 / body: 펼치면 보이는 세부 내용
   var TYPES = [
-    { key: "patents", ko: "특허", render: function (x) {
+    { key: "patents", ko: "특허", head: function (x) {
       return '<div class="badge-row">' + badge(x.status, x.status === "등록" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
-        (x.titleEn ? '<p class="subtitle">' + esc(x.titleEn) + "</p>" : "") +
-        '<p class="meta">' + esc([x.number, x.applicant].filter(Boolean).join(" · ")) + "</p>" +
+        '<p class="meta">' + esc(x.number) + "</p>";
+    }, body: function (x) {
+      return (x.titleEn ? '<p class="subtitle">' + esc(x.titleEn) + "</p>" : "") +
+        (x.applicant ? '<p class="meta">출원인 · ' + esc(x.applicant) + "</p>" : "") +
         (x.inventors ? '<p class="meta">발명자 · ' + esc(x.inventors) + "</p>" : "") +
-        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + imageBtn(x.image, x.title) + "</div>";
+        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + actions(imageBtn(x.image, x.title));
     } },
-    { key: "publications", ko: "논문", render: function (x) {
+    { key: "publications", ko: "논문", head: function (x) {
       var cls = { Submitted: "info", "Under review": "warn", Accepted: "ok", Published: "ok" }[x.status] || "";
-      var venue = x.journal
-        ? '<p class="meta"><b>' + esc(x.journal) + "</b>" + (x.citation ? ", " + esc(x.citation) : "") + "</p>"
-        : '<p class="meta">Target · <b>' + esc(x.target) + "</b></p>";
-      return '<div class="badge-row">' + badge(x.status, cls) + badge(x.expected) + "</div><h3>" + esc(x.title) +
-        '</h3><p class="meta">' + authorsHtml(x.authors) + "</p>" + venue +
-        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + linkBtn(x.link, "논문 보기") +
-        linkBtn(x.doi && "https://doi.org/" + x.doi, "DOI " + x.doi) + "</div>";
+      return '<div class="badge-row">' + badge(x.status, cls) + badge(x.expected) + "</div><h3>" + esc(x.title) + "</h3>" +
+        '<p class="meta"><b>' + esc(x.journal || x.target) + "</b>" + (x.journal ? " · " + yearOf(x.date) : " (투고 예정)") + "</p>";
+    }, body: function (x) {
+      return '<p class="meta">' + authorsHtml(x.authors) + "</p>" +
+        (x.citation ? '<p class="meta">' + esc(x.journal) + ", " + esc(x.citation) + "</p>" : "") +
+        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
+        actions(linkBtn(x.link, "논문 보기"), linkBtn(x.doi && "https://doi.org/" + x.doi, "DOI " + x.doi));
     } },
-    { key: "projects", ko: "프로젝트", render: function (x) {
-      return '<div class="badge-row">' + badge(x.status, x.status === "완료" ? "ok" : "info") + "</div><h3>" + esc(x.title) +
-        "</h3>" + (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + techChips(x.tech) +
-        '<div class="actions">' + linkBtn(x.repo, "GitHub") + '<a class="btn small" href="#projects">자세히</a></div>';
+    { key: "projects", ko: "프로젝트", head: function (x) {
+      return '<div class="badge-row">' + badge(x.status, x.status === "완료" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
+        (x.subtitle ? '<p class="meta">' + esc(x.subtitle) + "</p>" : "");
+    }, body: function (x) {
+      return (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + techChips(x.tech) +
+        actions(linkBtn(x.repo, "GitHub"), '<a class="btn small" href="#projects">프로젝트 섹션에서 보기</a>');
     } },
-    { key: "conferences", ko: "학회 발표", render: function (x) {
+    { key: "conferences", ko: "학회 발표", head: function (x) {
       return '<div class="badge-row">' + badge(x.type, "accent") + (x.award ? badge("🏆 " + x.award, "warn") : "") + "</div><h3>" +
-        esc(x.title) + '</h3><p class="meta">' + esc([x.venue, x.location].filter(Boolean).join(" · ")) + '</p><p class="meta">' +
-        esc(x.authors) + '</p><div class="actions">' + linkBtn(x.link, "자료 보기") + "</div>";
+        esc(x.title) + '</h3><p class="meta">' + esc(x.venue) + "</p>";
+    }, body: function (x) {
+      return (x.location ? '<p class="meta">' + esc(x.location) + "</p>" : "") + (x.authors ? '<p class="meta">' + authorsHtml(x.authors) + "</p>" : "") +
+        actions(linkBtn(x.link, "자료 보기"));
     } },
-    { key: "licenses", ko: "자격증", render: function (x) {
+    { key: "licenses", ko: "자격증", head: function (x) {
       return (x.planned ? '<div class="badge-row">' + badge("응시 예정", "plan") + "</div>" : "") + "<h3>" + esc(x.title) +
-        '</h3><p class="meta">' + esc([x.issuer, x.number].filter(Boolean).join(" · ")) + '</p><div class="actions">' +
-        imageBtn(x.image, x.title) + "</div>";
+        '</h3><p class="meta">' + esc(x.issuer) + "</p>";
+    }, body: function (x) {
+      return (x.number ? '<p class="meta">' + esc(x.number) + "</p>" : "") + actions(imageBtn(x.image, x.title));
     } },
-    { key: "languages", ko: "어학", render: function (x) {
+    { key: "languages", ko: "어학", head: function (x) {
       var detail = x.planned ? (x.goal ? "목표 " + x.goal : "") : x.score;
       return (x.planned ? '<div class="badge-row">' + badge("응시 예정", "plan") + "</div>" : "") + "<h3>" + esc(x.title) +
-        '</h3><p class="meta">' + esc(detail) + '</p><div class="actions">' + imageBtn(x.image, x.title) + "</div>";
+        '</h3><p class="meta">' + esc(detail) + "</p>";
+    }, body: function (x) {
+      return actions(imageBtn(x.image, x.title));
     } },
-    { key: "certificates", ko: "수료 · 교육", render: function (x) {
+    { key: "certificates", ko: "수료 · 교육", head: function (x) {
+      var n = 0, total = 0;
+      if (x.courses && x.courses.length) { total = x.courses.length; n = x.courses.filter(function (c) { return c.done; }).length; }
+      var status = x.courses && x.planned ? badge("진행 중 " + n + "/" + total, "info") : "";
+      return '<div class="badge-row">' + badge(x.category, "accent") + status + "</div><h3>" + esc(x.title) + '</h3><p class="meta">' +
+        esc(x.issuer) + "</p>";
+    }, body: function (x) {
       var prog = "";
       if (x.courses && x.courses.length) {
         var n = x.courses.filter(function (c) { return c.done; }).length, total = x.courses.length;
@@ -76,10 +104,8 @@
           '<div class="bar"><i style="width:' + (n / total * 100) + '%"></i></div><ol class="course-list">' +
           x.courses.map(function (c) { return '<li class="' + (c.done ? "done" : "") + '">' + esc(c.title) + "</li>"; }).join("") + "</ol></div>";
       }
-      var status = x.courses && x.planned ? badge("진행 중", "info") : "";
-      return '<div class="badge-row">' + badge(x.category, "accent") + status + "</div><h3>" + esc(x.title) + '</h3><p class="meta">' +
-        esc(x.issuer) + "</p>" + prog + (x.period || x.number ? '<p class="meta">' + esc([x.period, x.number].filter(Boolean).join(" · ")) + "</p>" : "") +
-        '<div class="actions">' + linkBtn(x.credentialUrl, "Credential") + imageBtn(x.image, x.title) + "</div>";
+      return prog + (x.period || x.number ? '<p class="meta">' + esc([x.period, x.number].filter(Boolean).join(" · ")) + "</p>" : "") +
+        actions(linkBtn(x.credentialUrl, "Credential"), imageBtn(x.image, x.title));
     } }
   ];
 
@@ -190,15 +216,15 @@
 
   // ---------- projects ----------
   $("projectList").innerHTML = (D.projects || []).length ? D.projects.map(function (x) {
-    return '<article class="card project' + (x.image ? " has-figure" : "") + '"><div class="project-body">' +
-      '<div class="badge-row">' + badge(x.status, x.status === "완료" ? "ok" : "info") + badge(x.date) + "</div>" +
-      "<h3>" + esc(x.title) + "</h3>" + (x.subtitle ? '<p class="subtitle">' + esc(x.subtitle) + "</p>" : "") +
-      (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
+    var head = '<div class="badge-row">' + badge(x.status, x.status === "완료" ? "ok" : "info") + badge(x.date) + "</div>" +
+      "<h3>" + esc(x.title) + "</h3>" + (x.summary ? '<p class="lead">' + esc(x.summary) + "</p>" : "");
+    var body = '<div class="project-detail' + (x.image ? " has-figure" : "") + '"><div class="project-body">' +
+      (x.subtitle ? '<p class="subtitle">' + esc(x.subtitle) + "</p>" : "") +
       (x.highlights && x.highlights.length ? '<ul class="highlights">' + x.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") + "</ul>" : "") +
-      techChips(x.tech) + '<div class="actions">' + linkBtn(x.repo, "GitHub 저장소") + "</div></div>" +
+      techChips(x.tech) + actions(linkBtn(x.repo, "GitHub 저장소")) + "</div>" +
       (x.image ? '<button class="project-figure" type="button" data-view="' + esc(x.image) + '" data-caption="' + esc(x.title) +
-        '" aria-label="그림 크게 보기"><img src="' + esc(x.image) + '" alt="' + esc(x.title) + ' 결과 그래프" loading="lazy"></button>' : "") +
-      "</article>";
+        '" aria-label="그림 크게 보기"><img src="' + esc(x.image) + '" alt="' + esc(x.title) + ' 결과 그래프" loading="lazy"></button>' : "") + "</div>";
+    return fold("project", head, body);
   }).join("") : empty("프로젝트를 data.js에 추가하세요.");
 
   // ---------- timeline: 연도별 페이지 ----------
@@ -221,7 +247,7 @@
       if (!g.length) return "";
       return '<div class="grp"><h4>' + t.ko + " · " + g.length + "</h4>" + g.map(function (i) {
         return '<div class="entry' + (i.data.planned ? " planned" : "") + '"><div class="mo">' + String(i.m).padStart(2, "0") +
-          "<small>" + MON[i.m - 1] + '</small></div><article class="card">' + t.render(i.data) + "</article></div>";
+          "<small>" + MON[i.m - 1] + "</small></div>" + fold("", t.head(i.data), t.body(i.data)) + "</div>";
       }).join("") + "</div>";
     }).join("");
     var newer = YEARS[idx - 1], older = YEARS[idx + 1];
@@ -289,12 +315,13 @@
 
     function card(a) {
       var period = esc(a.start) + " – " + (a.end ? esc(a.end) : "현재");
-      return '<article class="card act"><div class="act-side"><p class="act-period">' + period + "</p>" +
+      var head = '<div class="act-side"><p class="act-period">' + period + "</p>" +
         (a.end ? "" : badge("진행 중", "info")) + (a.role ? '<p class="act-role">' + esc(a.role) + "</p>" : "") +
-        '</div><div class="act-main"><h3>' + esc(a.title) + "</h3>" + (a.org ? '<p class="meta">' + esc(a.org) + "</p>" : "") +
-        (a.summary ? "<p>" + esc(a.summary) + "</p>" : "") +
+        '</div><div class="act-main"><h3>' + esc(a.title) + "</h3>" + (a.org ? '<p class="meta">' + esc(a.org) + "</p>" : "") + "</div>";
+      var body = (a.summary ? "<p>" + esc(a.summary) + "</p>" : "") +
         (a.highlights && a.highlights.length ? '<ul class="highlights">' + a.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") + "</ul>" : "") +
-        '<div class="actions">' + linkBtn(a.link, "자세히") + imageBtn(a.image, a.title) + "</div></div></article>";
+        actions(linkBtn(a.link, "자세히"), imageBtn(a.image, a.title));
+      return fold("act", head, body);
     }
 
     $("activityTabs").innerHTML = ys.map(function (y, i) {
@@ -329,6 +356,30 @@
       next.focus(); select(next); e.preventDefault(); e.stopPropagation();
     });
   })();
+
+  // ---------- 모두 펼치기 / 접기 ----------
+  document.querySelectorAll("[data-fold-all]").forEach(function (btn) {
+    var root = $(btn.getAttribute("data-fold-all"));
+    function sync() {
+      var all = root.querySelectorAll("details.fold"), open = root.querySelectorAll("details.fold[open]");
+      btn.hidden = !all.length;
+      btn.textContent = all.length && open.length === all.length ? "모두 접기" : "모두 펼치기";
+    }
+    btn.addEventListener("click", function () {
+      var openAll = btn.textContent === "모두 펼치기";
+      root.querySelectorAll("details.fold").forEach(function (d) { d.open = openAll; });
+      sync();
+    });
+    root.addEventListener("toggle", sync, true);
+    sync();
+  });
+  // 인쇄(PDF 저장) 때는 전부 펼쳐서 출력
+  var printOpened = [];
+  window.addEventListener("beforeprint", function () {
+    printOpened = Array.prototype.filter.call(document.querySelectorAll("details.fold"), function (d) { return !d.open; });
+    printOpened.forEach(function (d) { d.open = true; });
+  });
+  window.addEventListener("afterprint", function () { printOpened.forEach(function (d) { d.open = false; }); });
 
   // ---------- skills ----------
   $("skillList").innerHTML = (D.skills || []).map(function (g) {
