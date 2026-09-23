@@ -43,7 +43,7 @@ window.PORTFOLIO = {
   ],
 
   // 학력: 최신 학위부터 위에 적습니다.
-  // gpa / majorGpa 는 숫자로 적으면(예: 4.12) 막대그래프가 나오고, null 이면 사이트에 표시되지 않습니다.
+  // gpa / majorGpa 는 숫자로 적으면(예: 4.12) "평점 4.12 / 4.5" 처럼 한 줄 정보로 나오고, null 이면 표시되지 않습니다.
   // gpaMax 는 만점 기준 (4.5 또는 4.3). 비어 있는 칸("")은 사이트에서 자동으로 빠집니다.
   education: [
     {
@@ -55,7 +55,7 @@ window.PORTFOLIO = {
       majorEn: "",                    // 영문 학과명 (선택)
       lab: "Healthcare & AI Lab (HAI)", // 연구실 (선택)
       labUrl: "https://sites.google.com/view/hai-lab",
-      advisor: "",                    // 지도교수 (선택)
+      advisor: "최상호 교수",          // 지도교수 (선택)
       period: "2025.09 – 현재",
       gpa: 4.41,                      // 전체 평점
       gpaMax: 4.5,

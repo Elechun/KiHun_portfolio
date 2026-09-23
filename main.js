@@ -160,27 +160,24 @@
   ].map(function (s) { return "<div><dt>" + s[0] + "</dt><dd>" + s[1] + "</dd></div>"; }).join("");
 
   // ---------- about ----------
-  function gpaRow(label, v, max) {
-    if (v == null || v === "") return "";
-    return '<div class="gpa-row"><div class="label"><span>' + label + "</span><strong>" + Number(v).toFixed(2) +
-      " <small>/ " + max + '</small></strong></div><div class="bar"><i style="width:' + Math.min(100, v / max * 100) + '%"></i></div></div>';
-  }
   // 학력: 사진 한 칸 + 학위들을 한 카드에 (data.js 순서대로, 최신 학위가 위)
   $("eduPhoto").innerHTML = p.photo
     ? '<img src="' + esc(p.photo) + '" alt="' + esc(p.nameKo || p.name) + ' 프로필 사진">'
     : '<div class="photo-empty" aria-label="프로필 사진 자리"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="18" r="8"/><path d="M8 42c2-9 8.5-13 16-13s14 4 16 13"/></svg></div>';
   $("educationList").innerHTML = (D.education || []).length ? D.education.map(function (e) {
     var max = e.gpaMax || 4.5;
-    var gpa = gpaRow("전체 평점", e.gpa, max) + gpaRow("전공 평점", e.majorGpa, max);
+    // 학점은 눈에 띄는 그래프 대신 한 줄 정보로만
+    var gpa = [e.gpa != null && e.gpa !== "" ? "평점 " + Number(e.gpa).toFixed(2) + " / " + max : "",
+      e.majorGpa != null && e.majorGpa !== "" ? "전공 " + Number(e.majorGpa).toFixed(2) + " / " + max : ""].filter(Boolean).join(" · ");
     var lab = e.lab ? (e.labUrl ? '<a href="' + esc(e.labUrl) + '" target="_blank" rel="noopener">' + esc(e.lab) + "</a>" : esc(e.lab)) : "";
-    var labLine = [lab, e.advisor && "지도교수 " + esc(e.advisor)].filter(Boolean).join(" · ");
+    var labLine = [lab, e.advisor && "지도교수 " + esc(e.advisor)].filter(Boolean).join('<span class="sep"> · </span>');
     return '<section class="edu-item"><div class="edu-head"><div class="badge-row">' + badge(e.degree, "accent") +
       badge(e.status, e.status === "재학 중" ? "info" : "") + '</div><span class="edu-period">' + esc(e.period) + "</span></div>" +
       '<h3 class="school">' + esc(e.school || "학교 입력 전") + (e.schoolEn ? "<small>" + esc(e.schoolEn) + "</small>" : "") + "</h3>" +
       (e.major ? '<p class="edu-major">' + esc(e.major) + (e.majorEn ? "<small>" + esc(e.majorEn) + "</small>" : "") + "</p>" : "") +
       (labLine ? '<p class="meta">' + labLine + "</p>" : "") +
       (e.notes && e.notes.length ? "<ul>" + e.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>" : "") +
-      (gpa ? '<div class="gpa">' + gpa + "</div>" : "") + "</section>";
+      (gpa ? '<p class="edu-gpa">' + esc(gpa) + "</p>" : "") + "</section>";
   }).join("") : empty("학력 정보를 data.js에 추가하세요.");
 
   var creds = (D.licenses || []).concat(D.languages || []);

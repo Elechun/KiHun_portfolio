@@ -213,11 +213,7 @@ a:hover { text-decoration: underline; }
 .edu-major { margin: 0; font-size: 15px; font-weight: 500; }
 .edu-major small { display: block; font-size: 13px; color: var(--muted); font-weight: 400; }
 .edu-item ul { margin: 4px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
-.edu-item .gpa { margin-top: 6px; max-width: 360px; }
-.gpa { display: flex; flex-direction: column; gap: 10px; }
-.gpa-row .label { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; color: var(--muted); }
-.gpa-row .label strong { color: var(--text); font-size: 20px; font-variant-numeric: tabular-nums; }
-.gpa-row .label small { font-size: 13px; font-weight: 400; color: var(--muted); }
+.edu-gpa { margin: 0; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .bar { height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-top: 6px; }
 .bar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
 .cred-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
