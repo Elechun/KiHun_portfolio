@@ -132,7 +132,7 @@ window.PORTFOLIO = {
     {
       title: "리눅스마스터 2급",
       issuer: "한국정보통신진흥협회 (KAIT)",
-      date: "2024.03", // [예시] 실제 취득 연월로 바꿔 주세요
+      date: "2026.04",
       number: "",
       image: ""
     }
