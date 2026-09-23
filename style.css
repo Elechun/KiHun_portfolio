@@ -201,12 +201,20 @@ a:hover { text-decoration: underline; }
 
 /* about */
 .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
-.edu { display: grid; grid-template-columns: 1fr 240px; gap: 24px; height: 100%; }
-.edu + .edu { margin-top: 16px; }
-.edu.no-gpa { grid-template-columns: 1fr; height: auto; }
-.edu .badge-row { margin-bottom: 2px; }
-.edu ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
-.gpa { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.edu-card { display: grid; grid-template-columns: 150px 1fr; gap: 28px; align-items: start; padding: 26px; }
+.edu-photo img, .edu-photo .photo-empty { display: block; width: 100%; aspect-ratio: 3 / 4; border-radius: 12px; object-fit: cover; }
+.edu-photo .photo-empty { display: grid; place-items: center; background: var(--surface-2); border: 1.5px dashed var(--border); }
+.edu-photo .photo-empty svg { width: 46%; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; opacity: .6; }
+.edu-list { display: flex; flex-direction: column; min-width: 0; }
+.edu-item { display: flex; flex-direction: column; gap: 6px; }
+.edu-item + .edu-item { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+.edu-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.edu-period { font-size: 13px; color: var(--muted); font-weight: 500; font-variant-numeric: tabular-nums; }
+.edu-major { margin: 0; font-size: 15px; font-weight: 500; }
+.edu-major small { display: block; font-size: 13px; color: var(--muted); font-weight: 400; }
+.edu-item ul { margin: 4px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+.edu-item .gpa { margin-top: 6px; max-width: 360px; }
+.gpa { display: flex; flex-direction: column; gap: 10px; }
 .gpa-row .label { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; color: var(--muted); }
 .gpa-row .label strong { color: var(--text); font-size: 20px; font-variant-numeric: tabular-nums; }
 .gpa-row .label small { font-size: 13px; font-weight: 400; color: var(--muted); }
@@ -281,7 +289,7 @@ a:hover { text-decoration: underline; }
 .empty { color: var(--muted); font-size: 14px; padding: 20px; border: 1px dashed var(--border); border-radius: var(--radius); text-align: center; }
 
 /* education: 학교명 두 줄 */
-.edu h3.school small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.edu-item h3.school small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; }
 
 /* activities: 연도 탭 */
 .section-lead { margin: -16px 0 24px; color: var(--muted); }
@@ -349,7 +357,8 @@ a:hover { text-decoration: underline; }
   .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .stats div { padding: 12px; }
   .stats dt { font-size: 12px; }
-  .edu { grid-template-columns: 1fr; }
+  .edu-card { grid-template-columns: 1fr; gap: 20px; }
+  .edu-photo { width: 120px; }
   .skills { grid-template-columns: 1fr; }
   .section { padding: 44px 0; }
   .entry { grid-template-columns: 1fr; gap: 4px; }

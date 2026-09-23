@@ -18,7 +18,7 @@ window.PORTFOLIO = {
     headline: { before: "의료 데이터로 ", highlight: "임상 현장", after: "의 문제를 푸는 AI를 만듭니다" },
     intro:
       "[예시] 생체신호·의료영상 기반 딥러닝 모델을 개발하고, 이를 실제 임상 의사결정에 쓸 수 있는 형태로 만드는 데 관심이 있습니다. 연구 결과를 특허와 학회 발표로 이어 왔고, 현재 저널 투고를 준비하고 있습니다.",
-    photo: "", // 촬영 후 assets/profile.jpg 로 올리고 "assets/profile.jpg" 로 적기 (정사각형 권장, 비워 두면 이니셜 아바타)
+    photo: "", // 촬영 후 assets/profile.jpg 로 올리고 "assets/profile.jpg" 로 적기. 첫 화면(동그라미)과 About(증명사진형) 둘 다에 쓰입니다.
     location: "Seoul, Korea",
     links: {
       // 메일 여러 개 가능. 첫 번째가 강조 버튼이 됩니다.
@@ -49,15 +49,17 @@ window.PORTFOLIO = {
     {
       degree: "석사",                 // 학사 / 석사 / 박사
       status: "재학 중",              // 재학 중 / 졸업 / 졸업 예정
-      school: "",                     // 예: "광운대학교 대학원"
-      schoolEn: "",                   // 영문 학교명 (두 번째 줄에 작게 표시)
-      major: "",                      // 예: "컴퓨터공학과"
-      lab: "",                        // 연구실 (선택)
+      school: "광운대학교",
+      schoolEn: "Kwangwoon University", // 영문 학교명 (두 번째 줄에 작게 표시)
+      major: "컴퓨터공학과",
+      majorEn: "",                    // 영문 학과명 (선택)
+      lab: "Healthcare & AI Lab (HAI)", // 연구실 (선택)
+      labUrl: "https://sites.google.com/view/hai-lab",
       advisor: "",                    // 지도교수 (선택)
-      period: "",                     // 예: "2025.03 – 2027.02 (예정)"
-      gpa: null,                      // 전체 평점
+      period: "2025.09 – 현재",
+      gpa: 4.41,                      // 전체 평점
       gpaMax: 4.5,
-      majorGpa: null,                 // 대학원은 보통 비워 둡니다
+      majorGpa: null,
       notes: []                       // 예: ["연구 주제: 비접촉 생체신호 기반 수면 모니터링"]
     },
     {
@@ -65,13 +67,15 @@ window.PORTFOLIO = {
       status: "졸업",
       school: "광운대학교",
       schoolEn: "Kwangwoon University",
-      major: "",                      // 예: "전자공학과"
+      major: "컴퓨터정보공학부 (지능정보공학 전공)",
+      majorEn: "Computer and Information Engineering",
       lab: "",
+      labUrl: "",
       advisor: "",
-      period: "",                     // 예: "2020.03 – 2025.02"
-      gpa: null,                      // 전체 평점
+      period: "2022.03 – 2025.08",
+      gpa: 3.53,                      // 전체 평점
       gpaMax: 4.5,
-      majorGpa: null,                 // 전공 평점
+      majorGpa: null,                 // 전공 평점 (선택)
       notes: []                       // 예: ["성적우수 장학금 2회"]
     }
   ],
