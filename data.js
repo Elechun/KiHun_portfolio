@@ -11,6 +11,7 @@ window.PORTFOLIO = {
   profile: {
     name: "KiHun",
     nameKo: "기훈",
+    authorName: "Ki Hun Jun", // 논문 저자 목록에서 굵게 표시할 이름
     // 히어로에서 타이핑되며 번갈아 나오는 직함
     roles: ["Healthcare AI Researcher", "Biosignal Engineer", "Medical Imaging Enthusiast"],
     // highlight 부분에 손으로 그린 동그라미가 쳐집니다
@@ -72,7 +73,20 @@ window.PORTFOLIO = {
   ],
 
   // status: "In preparation" | "Submitted" | "Under review" | "Accepted" | "Published"
+  // 게재된 논문은 journal / citation / doi 를 채우고, 준비 중인 논문은 target / expected 를 채웁니다.
+  // authors 안의 profile.authorName 과 같은 이름은 자동으로 굵게 표시됩니다.
   publications: [
+    {
+      title: "Unconstrained Sleep Apnea Detection With Conv-ViT Network: LoRA Tuning for Personalized Monitoring",
+      authors: "Hyun Bin Kwon, Ki Hun Jun, Heenam Yoon, Eun Yeon Joo, Sang Ho Choi",
+      journal: "IEEE Sensors Journal",
+      citation: "vol. 26, no. 4, pp. 6331–6343, Feb. 2026",
+      doi: "10.1109/JSEN.2025.3650450",
+      status: "Published",
+      date: "2026.01", // Date of Publication: 14 January 2026
+      summary: "매트리스 토퍼 아래에 둔 PVDF 필름 센서로 몸에 아무것도 붙이지 않고 수면무호흡을 검출하는 Conv-ViT 모델. 수면다원검사(PSG)를 받은 121명의 데이터로 학습하고, LoRA 튜닝으로 사용자별 맞춤 모니터링을 구현.",
+      link: "https://ieeexplore.ieee.org/document/11353375"
+    },
     {
       title: "[예시] A Lightweight Transformer for Real-time Arrhythmia Detection on Wearable Devices",
       authors: "기훈*, 홍길동, 김철수 (*first author)",

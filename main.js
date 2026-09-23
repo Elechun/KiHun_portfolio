@@ -15,6 +15,12 @@
   function linkBtn(href, label) {
     return href ? '<a class="btn small" href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + "</a>" : "";
   }
+  // 저자 목록에서 본인 이름만 굵게
+  function authorsHtml(s) {
+    var me = D.profile.authorName;
+    var html = esc(s);
+    return me ? html.split(esc(me)).join("<b>" + esc(me) + "</b>") : html;
+  }
   function parseDate(d) {
     var m = /^(\d{4})\.(\d{1,2})/.exec(d || "");
     return m ? { y: +m[1], m: +m[2] } : null;
@@ -29,9 +35,13 @@
     } },
     { key: "publications", ko: "논문", render: function (x) {
       var cls = { Submitted: "info", "Under review": "warn", Accepted: "ok", Published: "ok" }[x.status] || "";
+      var venue = x.journal
+        ? '<p class="meta"><b>' + esc(x.journal) + "</b>" + (x.citation ? ", " + esc(x.citation) : "") + "</p>"
+        : '<p class="meta">Target · <b>' + esc(x.target) + "</b></p>";
       return '<div class="badge-row">' + badge(x.status, cls) + badge(x.expected) + "</div><h3>" + esc(x.title) +
-        '</h3><p class="meta">' + esc(x.authors) + '</p><p class="meta">Target · <b>' + esc(x.target) + "</b></p>" +
-        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + linkBtn(x.link, "논문 보기") + "</div>";
+        '</h3><p class="meta">' + authorsHtml(x.authors) + "</p>" + venue +
+        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + '<div class="actions">' + linkBtn(x.link, "논문 보기") +
+        linkBtn(x.doi && "https://doi.org/" + x.doi, "DOI " + x.doi) + "</div>";
     } },
     { key: "conferences", ko: "학회 발표", render: function (x) {
       return '<div class="badge-row">' + badge(x.type, "accent") + (x.award ? badge("🏆 " + x.award, "warn") : "") + "</div><h3>" +
