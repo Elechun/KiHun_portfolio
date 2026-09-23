@@ -203,6 +203,8 @@ a:hover { text-decoration: underline; }
 .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
 .edu { display: grid; grid-template-columns: 1fr 240px; gap: 24px; height: 100%; }
 .edu + .edu { margin-top: 16px; }
+.edu.no-gpa { grid-template-columns: 1fr; height: auto; }
+.edu .badge-row { margin-bottom: 2px; }
 .edu ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
 .gpa { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
 .gpa-row .label { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; color: var(--muted); }

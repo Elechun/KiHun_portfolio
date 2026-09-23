@@ -130,6 +130,7 @@
   var L = p.links || {};
   var links = [
     L.email && '<a class="btn primary" href="mailto:' + esc(L.email) + '">Email</a>',
+    L.phone && '<a class="btn" href="tel:' + esc(L.phone.replace(/[^0-9+]/g, "")) + '">' + esc(L.phone) + "</a>",
     L.cv && '<a class="btn" href="' + esc(L.cv) + '" target="_blank" rel="noopener">CV (PDF)</a>',
     L.github && '<a class="btn" href="' + esc(L.github) + '" target="_blank" rel="noopener">GitHub</a>',
     L.linkedin && '<a class="btn" href="' + esc(L.linkedin) + '" target="_blank" rel="noopener">LinkedIn</a>',
@@ -157,10 +158,14 @@
   }
   $("educationList").innerHTML = (D.education || []).length ? D.education.map(function (e) {
     var max = e.gpaMax || 4.5;
-    return '<article class="card edu"><div><h3 class="card-label">Education</h3><h3>' + esc(e.school) + '</h3><p class="meta">' +
-      esc(e.degree) + '</p><p class="meta">' + esc(e.period) + "</p>" +
+    var gpa = gpaRow("전체 평점", e.gpa, max) + gpaRow("전공 평점", e.majorGpa, max);
+    var labLine = [e.lab, e.advisor && "지도교수 " + e.advisor].filter(Boolean).join(" · ");
+    return '<article class="card edu' + (gpa ? "" : " no-gpa") + '"><div><div class="badge-row">' + badge(e.degree, "accent") +
+      badge(e.status, e.status === "재학 중" ? "info" : "") + "</div><h3>" + esc(e.school || "학교 입력 전") + "</h3>" +
+      (e.major ? '<p class="meta">' + esc(e.major) + "</p>" : "") + (labLine ? '<p class="meta">' + esc(labLine) + "</p>" : "") +
+      (e.period ? '<p class="meta">' + esc(e.period) + "</p>" : "") +
       (e.notes && e.notes.length ? "<ul>" + e.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>" : "") +
-      '</div><div class="gpa">' + gpaRow("전체 평점", e.gpa, max) + gpaRow("전공 평점", e.majorGpa, max) + "</div></article>";
+      "</div>" + (gpa ? '<div class="gpa">' + gpa + "</div>" : "") + "</article>";
   }).join("") : empty("학력 정보를 data.js에 추가하세요.");
 
   var creds = (D.licenses || []).concat(D.languages || []);

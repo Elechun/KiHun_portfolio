@@ -18,10 +18,11 @@ window.PORTFOLIO = {
     headline: { before: "의료 데이터로 ", highlight: "임상 현장", after: "의 문제를 푸는 AI를 만듭니다" },
     intro:
       "[예시] 생체신호·의료영상 기반 딥러닝 모델을 개발하고, 이를 실제 임상 의사결정에 쓸 수 있는 형태로 만드는 데 관심이 있습니다. 연구 결과를 특허와 학회 발표로 이어 왔고, 현재 저널 투고를 준비하고 있습니다.",
-    photo: "", // 예: "assets/profile.jpg" (비워 두면 이니셜 아바타)
+    photo: "", // 촬영 후 assets/profile.jpg 로 올리고 "assets/profile.jpg" 로 적기 (정사각형 권장, 비워 두면 이니셜 아바타)
     location: "Seoul, Korea",
     links: {
       email: "your.email@example.com",
+      phone: "", // 공개 사이트라 비워 두는 걸 권장 (이력서 PDF에만 적기)
       github: "https://github.com/Elechun",
       linkedin: "",
       scholar: "",
@@ -37,25 +38,42 @@ window.PORTFOLIO = {
     "Multimodal Learning"
   ],
 
+  // 학력: 최신 학위부터 위에 적습니다.
+  // gpa / majorGpa 는 숫자로 적으면(예: 4.12) 막대그래프가 나오고, null 이면 사이트에 표시되지 않습니다.
+  // gpaMax 는 만점 기준 (4.5 또는 4.3). 비어 있는 칸("")은 사이트에서 자동으로 빠집니다.
   education: [
     {
-      school: "광운대학교 (Kwangwoon University)",
-      degree: "[예시] 학사 · 의공학과 (부전공: 컴퓨터공학)",
-      period: "[예시] 2021.03 – 2027.02 (예정)",
-      gpa: 4.12,
+      degree: "석사",                 // 학사 / 석사 / 박사
+      status: "재학 중",              // 재학 중 / 졸업 / 졸업 예정
+      school: "",                     // 예: "광운대학교 대학원"
+      major: "",                      // 예: "컴퓨터공학과"
+      lab: "",                        // 연구실 (선택)
+      advisor: "",                    // 지도교수 (선택)
+      period: "",                     // 예: "2025.03 – 2027.02 (예정)"
+      gpa: null,                      // 전체 평점
       gpaMax: 4.5,
-      majorGpa: 4.25,
-      notes: [
-        "[예시] 성적우수 장학금 3회",
-        "[예시] 주요 과목: 의료영상처리, 머신러닝, 생체신호처리, 데이터구조"
-      ]
+      majorGpa: null,                 // 대학원은 보통 비워 둡니다
+      notes: []                       // 예: ["연구 주제: 비접촉 생체신호 기반 수면 모니터링"]
+    },
+    {
+      degree: "학사",
+      status: "졸업",
+      school: "광운대학교 (Kwangwoon University)",
+      major: "",                      // 예: "전자공학과"
+      lab: "",
+      advisor: "",
+      period: "",                     // 예: "2020.03 – 2025.02"
+      gpa: null,                      // 전체 평점
+      gpaMax: 4.5,
+      majorGpa: null,                 // 전공 평점
+      notes: []                       // 예: ["성적우수 장학금 2회"]
     }
   ],
 
   // 연도별 페이지 머리말: 한 줄 회고 + 그 해 평점(선택)
   years: {
-    "2026": { summary: "[예시] 연구를 논문으로 정리하는 해.", gpa: 4.30 },
-    "2025": { summary: "[예시] 첫 특허 등록과 첫 구두 발표를 해낸 해.", gpa: 4.18 }
+    "2026": { summary: "[예시] 연구를 논문으로 정리하는 해.", gpa: null },
+    "2025": { summary: "[예시] 첫 특허 등록과 첫 구두 발표를 해낸 해.", gpa: null }
   },
 
   // status: "등록" | "출원"
