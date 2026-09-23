@@ -214,35 +214,38 @@ window.PORTFOLIO = {
     }
   ],
 
-  // type: "Oral" | "Poster" | "Invited" 등
+  // 학회 발표. type: "Oral" | "Poster" 등. 심사 중이면 status: "Under Review" + planned: true (점선 카드, 숫자 요약에서 제외)
+  // 대한의용생체공학회(KOSOMBE)는 매년 5월(춘계)·11월(추계)에 열림
   conferences: [
     {
-      title: "[예시] Multimodal EHR + ECG Fusion for ICU Mortality Prediction",
-      venue: "[예시] 대한의료정보학회 춘계학술대회 (KOSMI 2026)",
-      location: "Seoul, Korea",
-      date: "2026.03",
-      type: "Poster",
-      authors: "전기헌, 홍길동",
+      title: "[발표 제목 입력]",
+      venue: "대한의용생체공학회 추계학술대회 (KOSOMBE 2026 Fall)",
+      location: "",
+      date: "2026.11",
+      status: "Under Review",
+      planned: true,
+      type: "",                 // 결과 나오면 "Oral" / "Poster"
+      authors: "",
       award: "",
       link: ""
     },
     {
-      title: "[예시] Explainable Deep Learning for Early Sepsis Prediction from EHR Time Series",
-      venue: "[예시] 대한의료정보학회 추계학술대회 (KOSMI 2025)",
-      location: "Seoul, Korea",
-      date: "2025.11",
-      type: "Oral",
-      authors: "전기헌, 홍길동, 김철수",
-      award: "[예시] 우수발표상",
+      title: "[발표 제목 입력]",
+      venue: "대한의용생체공학회 춘계학술대회 (KOSOMBE 2026 Spring)",
+      location: "",
+      date: "2026.05",
+      type: "",                 // "Oral" / "Poster"
+      authors: "",
+      award: "",
       link: ""
     },
     {
-      title: "[예시] Self-supervised Pretraining for Chest X-ray Classification with Limited Labels",
-      venue: "[예시] IEEE EMBC 2025",
-      location: "Copenhagen, Denmark",
-      date: "2025.07",
-      type: "Poster",
-      authors: "전기헌, 홍길동",
+      title: "[발표 제목 입력]",
+      venue: "대한의용생체공학회 추계학술대회 (KOSOMBE 2025 Fall)",
+      location: "",
+      date: "2025.11",          // 춘계(5월)였다면 "2025.05"
+      type: "",                 // "Oral" / "Poster"
+      authors: "",
       award: "",
       link: ""
     }

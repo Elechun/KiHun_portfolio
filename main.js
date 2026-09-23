@@ -44,7 +44,7 @@
   // ---------- 기록 종류 정의: 순서 = 연도 페이지에서 그룹 순서 ----------
   // head: 접힌 상태에서 보이는 제목·한 줄 설명 / body: 펼치면 보이는 세부 내용
   var TYPES = [
-    { key: "patents", ko: "Patents", head: function (x) {
+    { key: "patents", ko: "Patent", head: function (x) {
       return '<div class="badge-row">' + badge(x.status, x.status === "Granted" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
         '<p class="meta">' + esc(x.number) + "</p>";
     }, body: function (x) {
@@ -53,7 +53,7 @@
         (x.inventors ? '<p class="meta">Inventors · ' + esc(x.inventors) + "</p>" : "") +
         (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + actions(imageBtn(x.image, x.title, "Filing Receipt"));
     } },
-    { key: "publications", ko: "Publications", head: function (x) {
+    { key: "publications", ko: "Journal", head: function (x) {
       var cls = { Submitted: "info", "Under review": "warn", Accepted: "ok", Published: "ok" }[x.status] || "";
       return '<div class="badge-row">' + badge(x.status, cls) + badge(x.expected) + "</div><h3>" + esc(x.title) + "</h3>" +
         '<p class="meta"><b>' + esc(x.journal || x.target) + "</b>" + (x.journal ? " · " + yearOf(x.date) : " (target journal)") + "</p>";
@@ -64,34 +64,34 @@
         (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
         actions(linkBtn(x.doi ? "https://doi.org/" + x.doi : x.link, "Paper ↗"));
     } },
-    { key: "projects", ko: "Projects", head: function (x) {
+    { key: "projects", ko: "Project", head: function (x) {
       return '<div class="badge-row">' + badge(x.status, x.status === "Completed" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
         (x.subtitle ? '<p class="meta">' + esc(x.subtitle) + "</p>" : "");
     }, body: function (x) {
       return (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + techChips(x.tech) +
         actions(linkBtn(x.repo, "Code ↗"), '<a class="btn small" href="#projects">Details</a>');
     } },
-    { key: "conferences", ko: "Presentations", head: function (x) {
-      return '<div class="badge-row">' + badge(x.type, "accent") + (x.award ? badge("🏆 " + x.award, "warn") : "") + "</div><h3>" +
-        esc(x.title) + '</h3><p class="meta">' + esc(x.venue) + "</p>";
+    { key: "conferences", ko: "Conference", head: function (x) {
+      return '<div class="badge-row">' + badge(x.status, "warn") + badge(x.type, "accent") + (x.award ? badge("🏆 " + x.award, "warn") : "") +
+        "</div><h3>" + esc(x.title) + '</h3><p class="meta">' + esc(x.venue) + "</p>";
     }, body: function (x) {
       return (x.location ? '<p class="meta">' + esc(x.location) + "</p>" : "") + (x.authors ? '<p class="meta">' + authorsHtml(x.authors) + "</p>" : "") +
         actions(linkBtn(x.link, "Slides ↗"));
     } },
-    { key: "licenses", ko: "Licenses", head: function (x) {
+    { key: "licenses", ko: "License", head: function (x) {
       return (x.planned ? '<div class="badge-row">' + badge("Planned", "plan") + "</div>" : "") + "<h3>" + esc(x.title) +
         '</h3><p class="meta">' + esc(x.issuer) + "</p>";
     }, body: function (x) {
       return (x.number ? '<p class="meta">' + esc(x.number) + "</p>" : "") + actions(imageBtn(x.image, x.title, "Certificate"));
     } },
-    { key: "languages", ko: "Languages", head: function (x) {
+    { key: "languages", ko: "Language", head: function (x) {
       var detail = x.planned ? (x.goal ? "Target " + x.goal : "") : x.score;
       return (x.planned ? '<div class="badge-row">' + badge("Planned", "plan") + "</div>" : "") + "<h3>" + esc(x.title) +
         '</h3><p class="meta">' + esc(detail) + "</p>";
     }, body: function (x) {
       return actions(imageBtn(x.image, x.title, "Score Report"));
     } },
-    { key: "certificates", ko: "Courses", head: function (x) {
+    { key: "certificates", ko: "Course", head: function (x) {
       var n = 0, total = 0;
       if (x.courses && x.courses.length) { total = x.courses.length; n = x.courses.filter(function (c) { return c.done; }).length; }
       var status = x.courses && x.planned ? badge("In Progress " + n + "/" + total, "info") : "";
@@ -178,12 +178,12 @@
 
   function done(key) { return (D[key] || []).filter(function (x) { return !x.planned; }).length; }
   $("stats").innerHTML = [
-    ["Patents", done("patents")],
-    ["Publications", done("publications")],
-    ["Projects", done("projects")],
-    ["Presentations", done("conferences")],
-    ["Licenses", done("licenses") + done("languages")],
-    ["Courses", done("certificates")]
+    ["Patent", done("patents")],
+    ["Journal", done("publications")],
+    ["Project", done("projects")],
+    ["Conference", done("conferences")],
+    ["License", done("licenses") + done("languages")],
+    ["Course", done("certificates")]
   ].map(function (s) { return "<div><dt>" + s[0] + "</dt><dd>" + s[1] + "</dd></div>"; }).join("");
 
   // ---------- about ----------
