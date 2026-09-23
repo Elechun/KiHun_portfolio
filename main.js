@@ -58,10 +58,11 @@
       return '<div class="badge-row">' + badge(x.status, cls) + badge(x.expected) + "</div><h3>" + esc(x.title) + "</h3>" +
         '<p class="meta"><b>' + esc(x.journal || x.target) + "</b>" + (x.journal ? " · " + yearOf(x.date) : " (투고 예정)") + "</p>";
     }, body: function (x) {
+      // 링크는 하나만: DOI(영구 주소)가 있으면 DOI, 없으면 link
       return '<p class="meta">' + authorsHtml(x.authors) + "</p>" +
-        (x.citation ? '<p class="meta">' + esc(x.journal) + ", " + esc(x.citation) + "</p>" : "") +
+        (x.citation ? '<p class="meta">' + esc(x.journal) + ", " + esc(x.citation) + (x.doi ? " · DOI: " + esc(x.doi) : "") + "</p>" : "") +
         (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
-        actions(linkBtn(x.link, "논문 보기"), linkBtn(x.doi && "https://doi.org/" + x.doi, "DOI " + x.doi));
+        actions(linkBtn(x.doi ? "https://doi.org/" + x.doi : x.link, "Paper ↗"));
     } },
     { key: "projects", ko: "프로젝트", head: function (x) {
       return '<div class="badge-row">' + badge(x.status, x.status === "완료" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
