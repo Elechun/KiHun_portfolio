@@ -21,7 +21,7 @@ window.PORTFOLIO = {
     photo: "", // 촬영 후 assets/profile.jpg 로 올리고 "assets/profile.jpg" 로 적기 (정사각형 권장, 비워 두면 이니셜 아바타)
     location: "Seoul, Korea",
     links: {
-      email: "your.email@example.com",
+      email: "kingworm40@gmail.com",
       phone: "", // 공개 사이트라 비워 두는 걸 권장 (이력서 PDF에만 적기)
       github: "https://github.com/Elechun",
       linkedin: "",

@@ -137,7 +137,8 @@
     L.scholar && '<a class="btn" href="' + esc(L.scholar) + '" target="_blank" rel="noopener">Google Scholar</a>'
   ].filter(Boolean).join("");
   $("heroLinks").innerHTML = links;
-  $("footerLinks").innerHTML = links;
+  // 푸터에서는 메일 주소를 그대로 보여 줘서 복사할 수 있게
+  $("footerLinks").innerHTML = L.email ? links.replace(">Email</a>", ">" + esc(L.email) + "</a>") : links;
   $("copyright").textContent = "© " + new Date().getFullYear() + " " + p.name + " · " + p.location;
 
   function done(key) { return (D[key] || []).filter(function (x) { return !x.planned; }).length; }
