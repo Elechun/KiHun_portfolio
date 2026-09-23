@@ -10,7 +10,7 @@
 window.PORTFOLIO = {
   profile: {
     name: "KiHun",
-    nameKo: "기훈",
+    nameKo: "전기헌",
     authorName: "Ki Hun Jun", // 논문 저자 목록에서 굵게 표시할 이름
     // 히어로에서 타이핑되며 번갈아 나오는 직함
     roles: ["Healthcare AI Researcher", "Biosignal Engineer", "Medical Imaging Enthusiast"],
@@ -66,7 +66,7 @@ window.PORTFOLIO = {
       status: "등록",
       number: "제10-0000000호",
       date: "2025.08",
-      inventors: "홍길동, 기훈 외 2인",
+      inventors: "홍길동, 전기헌 외 2인",
       summary: "[예시] 단일 리드 심전도 신호에서 부정맥을 실시간으로 검출하는 경량 신경망 구조 및 이를 탑재한 웨어러블 장치.",
       image: "" // 예: "assets/patents/patent-1.jpg"
     }
@@ -150,7 +150,7 @@ window.PORTFOLIO = {
       location: "Seoul, Korea",
       date: "2026.03",
       type: "Poster",
-      authors: "기훈, 홍길동",
+      authors: "전기헌, 홍길동",
       award: "",
       link: ""
     },
@@ -160,7 +160,7 @@ window.PORTFOLIO = {
       location: "Seoul, Korea",
       date: "2025.11",
       type: "Oral",
-      authors: "기훈, 홍길동, 김철수",
+      authors: "전기헌, 홍길동, 김철수",
       award: "[예시] 우수발표상",
       link: ""
     },
@@ -170,7 +170,7 @@ window.PORTFOLIO = {
       location: "Copenhagen, Denmark",
       date: "2025.07",
       type: "Poster",
-      authors: "기훈, 홍길동",
+      authors: "전기헌, 홍길동",
       award: "",
       link: ""
     }
@@ -210,7 +210,18 @@ window.PORTFOLIO = {
   ],
 
   // category: 수료증 카드 뱃지 ("Coursera", "학교", "기타" 등 자유롭게)
+  // period / number 는 선택 (교육기간, 수료번호)
   certificates: [
+    {
+      title: "NIPA-NVIDIA AI 전문가 과정 (1단계)",
+      issuer: "정보통신산업진흥원(NIPA) · 수도권 ICT이노베이션스퀘어",
+      category: "NIPA",
+      date: "2025.08",
+      period: "2025.07.04 – 2025.08.07 · 200시간",
+      number: "제2025-BT-03-0043호",
+      credentialUrl: "",
+      image: "assets/certificates/nipa-nvidia-ai-2025.jpg" // 생년월일 가림 처리한 이미지
+    },
     {
       title: "[예시] Generative AI for Healthcare",
       issuer: "Coursera",

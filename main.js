@@ -68,7 +68,8 @@
     } },
     { key: "certificates", ko: "수료 · 교육", render: function (x) {
       return '<div class="badge-row">' + badge(x.category, "accent") + "</div><h3>" + esc(x.title) + '</h3><p class="meta">' +
-        esc(x.issuer) + '</p><div class="actions">' + linkBtn(x.credentialUrl, "Credential") + imageBtn(x.image, x.title) + "</div>";
+        esc(x.issuer) + "</p>" + (x.period || x.number ? '<p class="meta">' + esc([x.period, x.number].filter(Boolean).join(" · ")) + "</p>" : "") +
+        '<div class="actions">' + linkBtn(x.credentialUrl, "Credential") + imageBtn(x.image, x.title) + "</div>";
     } }
   ];
 
