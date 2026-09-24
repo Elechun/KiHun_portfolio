@@ -175,40 +175,18 @@ window.PORTFOLIO = {
   // start ~ end 기간에 걸친 모든 연도 탭에 표시됩니다. end 를 비워 두면 "Ongoing".
   // category 는 탭 안에서 묶이는 분류이고, 아래 activityCategories 순서대로 나옵니다.
   activityCategories: ["Student Council", "Clubs", "External", "Volunteering", "Campus"],
+  // roles: 연도별로 직책이 바뀐 경우 { "2023": "부회장" } 처럼 적으면 그 해 탭에 해당 직책이 보입니다 (없는 해는 role).
   activities: [
     {
-      title: "[예시] 학과 학생회",
-      role: "[예시] 학술부장",
+      title: "광운알리미 — 광운대학교 공식 홍보대사",
+      role: "홍보대사",
+      roles: { "2023": "부회장", "2024": "회장" },
       org: "광운대학교",
-      category: "Student Council",
-      start: "2025.03",
-      end: "2026.02",
-      summary: "[예시] 학과 학술제와 선배 멘토링 프로그램을 기획·운영.",
-      highlights: ["[예시] 학술제 참가자 120명 규모 운영", "[예시] 신입생 멘토링 12개 조 편성"],
-      link: "",
-      image: ""
-    },
-    {
-      title: "[예시] AI 학술 동아리",
-      role: "[예시] 스터디 리더",
-      org: "광운대학교",
-      category: "Clubs",
-      start: "2026.03",
-      end: "",
-      summary: "[예시] 의료 AI 논문 리딩 스터디를 주 1회 진행.",
-      highlights: [],
-      link: "",
-      image: ""
-    },
-    {
-      title: "[예시] 지역 아동센터 코딩 교육 봉사",
-      role: "[예시] 강사",
-      org: "[예시] OO구 지역아동센터",
-      category: "Volunteering",
-      start: "2025.07",
+      category: "Campus",
+      start: "2022.04",
       end: "2025.08",
-      summary: "[예시] 초등학생 대상 파이썬 기초 수업 8회.",
-      highlights: [],
+      summary: "광운대학교 공식 홍보대사로 3년 5개월간 활동. 2023년 부회장, 2024년 회장을 맡아 단체 운영을 이끌었음.",
+      highlights: [],           // 예: ["입학설명회·캠퍼스 투어 N회 진행", "신입 단원 선발·교육 총괄"]
       link: "",
       image: ""
     }

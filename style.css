@@ -351,6 +351,7 @@ details.card.fold { display: block; padding: 0; }
   font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1; color: var(--muted);
   background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px;
   padding: 10px 22px 14px; cursor: pointer; display: flex; align-items: baseline; gap: 8px; font-variant-numeric: lining-nums;
+  flex: none; white-space: nowrap;
 }
 .year-tabs button em { font-family: var(--sans); font-style: normal; font-size: 12px; font-weight: 600; color: var(--muted);
   background: var(--surface-2); border-radius: 999px; padding: 1px 8px; }
@@ -372,6 +373,14 @@ details.card.fold { display: block; padding: 0; }
 .act-main { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .act .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .act .actions:empty { display: none; }
+
+/* 활동의 연도별 직책 흐름 */
+.role-path { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.role-path li { display: inline-flex; align-items: baseline; gap: 6px; font-size: 13px; padding: 3px 10px; border-radius: 999px;
+  background: var(--surface-2); color: var(--muted); }
+.role-path li span { font-weight: 600; font-variant-numeric: tabular-nums; }
+.role-path li.now { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.role-path li + li::before { content: "→"; margin-right: 2px; color: var(--muted); font-weight: 400; }
 
 /* skills */
 .skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }

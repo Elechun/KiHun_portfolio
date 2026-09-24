@@ -345,12 +345,19 @@
     var order = (D.activityCategories || []).slice();
     acts.forEach(function (a) { if (order.indexOf(a.category) < 0) order.push(a.category); });
 
-    function card(a) {
+    // 그 해의 직책 (roles 에 없으면 기본 role)
+    function roleIn(a, y) { return (a.roles && a.roles[y]) || a.role || ""; }
+    function card(a, y) {
       var period = esc(a.start) + " – " + (a.end ? esc(a.end) : "Present");
+      var role = roleIn(a, y);
       var head = '<div class="act-side"><p class="act-period">' + period + "</p>" +
-        (a.end ? "" : badge("Ongoing", "info")) + (a.role ? '<p class="act-role">' + esc(a.role) + "</p>" : "") +
+        (a.end ? "" : badge("Ongoing", "info")) + (role ? '<p class="act-role">' + esc(role) + "</p>" : "") +
         '</div><div class="act-main"><h3>' + esc(a.title) + "</h3>" + (a.org ? '<p class="meta">' + esc(a.org) + "</p>" : "") + "</div>";
-      var body = (a.summary ? "<p>" + esc(a.summary) + "</p>" : "") +
+      // 직책이 바뀐 활동은 연도별 직책 흐름을 보여 줌
+      var path = a.roles && Object.keys(a.roles).length ? '<ol class="role-path">' + span(a).map(function (yy) {
+        return '<li class="' + (yy === y ? "now" : "") + '"><span>' + yy + "</span>" + esc(roleIn(a, yy)) + "</li>";
+      }).join("") + "</ol>" : "";
+      var body = (a.summary ? "<p>" + esc(a.summary) + "</p>" : "") + path +
         (a.highlights && a.highlights.length ? '<ul class="highlights">' + a.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") + "</ul>" : "") +
         actions(linkBtn(a.link, "More ↗"), imageBtn(a.image, a.title));
       return fold("act", head, body);
@@ -365,7 +372,7 @@
       var groups = order.map(function (c) {
         var g = list.filter(function (a) { return a.category === c; });
         if (!g.length) return "";
-        return '<div class="act-group"><h4>' + esc(c) + " · " + g.length + '</h4><div class="act-grid">' + g.map(card).join("") + "</div></div>";
+        return '<div class="act-group"><h4>' + esc(c) + " · " + g.length + '</h4><div class="act-grid">' + g.map(function (a) { return card(a, y); }).join("") + "</div></div>";
       }).join("");
       return '<div class="act-panel" role="tabpanel" id="apanel-' + y + '" aria-labelledby="atab-' + y + '"' + (i === 0 ? "" : " hidden") + ">" + groups + "</div>";
     }).join("");
