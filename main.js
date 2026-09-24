@@ -359,7 +359,7 @@
       }).join("") + "</ol>" : "";
       var body = (a.summary ? "<p>" + esc(a.summary) + "</p>" : "") + path +
         (a.highlights && a.highlights.length ? '<ul class="highlights">' + a.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") + "</ul>" : "") +
-        actions(linkBtn(a.link, "More ↗"), imageBtn(a.image, a.title));
+        actions(linkBtn(a.link, "Programs ↗"), linkBtn(a.blog, "Blog ↗"), imageBtn(a.image, a.title));
       return fold("act", head, body);
     }
 

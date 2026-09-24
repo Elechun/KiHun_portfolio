@@ -185,9 +185,14 @@ window.PORTFOLIO = {
       category: "Campus",
       start: "2022.04",
       end: "2025.08",
-      summary: "광운대학교 공식 홍보대사로 3년 5개월간 활동. 2023년 부회장, 2024년 회장을 맡아 단체 운영을 이끌었음.",
-      highlights: [],           // 예: ["입학설명회·캠퍼스 투어 N회 진행", "신입 단원 선발·교육 총괄"]
-      link: "",
+      summary: "광운대학교 입학처 홍보대사로 3년 5개월간 고등학생 대상 전공 체험, 입시 안내, 멘토링을 진행. 2023년 부회장, 2024년 회장으로 단체 운영을 이끌었음.",
+      highlights: [
+        "고등학생 대상 전공 체험 프로그램 진행 — 레고 마인드스톰으로 로봇·코딩 실습 지도",
+        "입시 설명·상담 등 입학 관련 프로그램 지원",
+        "고등학생 진로·전공 멘토링"
+      ],
+      link: "https://iphak.kw.ac.kr/highschool/notification.php", // 고교 대상 프로그램 안내
+      blog: "https://blog.naver.com/PostList.nhn?blogId=kwiphak",  // 입학처 블로그
       image: ""
     }
   ],
