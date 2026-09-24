@@ -326,9 +326,10 @@
     if (e.key === "ArrowRight" && YEARS[i - 1]) showYear(YEARS[i - 1], false);
   });
 
-  // ---------- activities: 연도 탭 + 분류별 묶음 ----------
+  // ---------- activities: 한 목록 + 분류별 묶음 (최근 시작한 활동이 위) ----------
   (function () {
-    var acts = D.activities || [];
+    var acts = (D.activities || []).slice().sort(function (a, b) { return String(b.start).localeCompare(String(a.start)); });
+    if (!acts.length) { $("activityPanels").innerHTML = empty("활동을 data.js의 activities에 추가하세요."); return; }
     var nowY = new Date().getFullYear();
     function span(a) {
       var s = parseDate(a.start), e = parseDate(a.end);
@@ -337,25 +338,22 @@
       for (var y = s.y; y <= last; y++) ys.push(y);
       return ys;
     }
-    var byYear = {};
-    acts.forEach(function (a) { span(a).forEach(function (y) { (byYear[y] = byYear[y] || []).push(a); }); });
-    var ys = Object.keys(byYear).map(Number).sort(function (a, b) { return b - a; });
-    if (!ys.length) { $("activityPanels").innerHTML = empty("활동을 data.js의 activities에 추가하세요."); return; }
-
     var order = (D.activityCategories || []).slice();
     acts.forEach(function (a) { if (order.indexOf(a.category) < 0) order.push(a.category); });
 
-    // 그 해의 직책 (roles 에 없으면 기본 role)
     function roleIn(a, y) { return (a.roles && a.roles[y]) || a.role || ""; }
-    function card(a, y) {
+    function card(a) {
       var period = esc(a.start) + " – " + (a.end ? esc(a.end) : "Present");
-      var role = roleIn(a, y);
+      // 직책: 기본 역할 + 연도별로 맡은 직책 (예: 회장 2024 · 부회장 2023)
+      var extra = a.roles ? Object.keys(a.roles).sort().reverse().map(function (y) {
+        return esc(a.roles[y]) + " <small>" + y + "</small>";
+      }) : [];
       var head = '<div class="act-side"><p class="act-period">' + period + "</p>" +
-        (a.end ? "" : badge("Ongoing", "info")) + (role ? '<p class="act-role">' + esc(role) + "</p>" : "") +
+        (a.end ? "" : badge("Ongoing", "info")) +
+        (extra.length ? '<p class="act-role">' + extra.join("<br>") + "</p>" : (a.role ? '<p class="act-role">' + esc(a.role) + "</p>" : "")) +
         '</div><div class="act-main"><h3>' + esc(a.title) + "</h3>" + (a.org ? '<p class="meta">' + esc(a.org) + "</p>" : "") + "</div>";
-      // 직책이 바뀐 활동은 연도별 직책 흐름을 보여 줌
-      var path = a.roles && Object.keys(a.roles).length ? '<ol class="role-path">' + span(a).map(function (yy) {
-        return '<li class="' + (yy === y ? "now" : "") + '"><span>' + yy + "</span>" + esc(roleIn(a, yy)) + "</li>";
+      var path = a.roles && Object.keys(a.roles).length ? '<ol class="role-path">' + span(a).map(function (y) {
+        return '<li class="' + (a.roles[y] ? "now" : "") + '"><span>' + y + "</span>" + esc(roleIn(a, y)) + "</li>";
       }).join("") + "</ol>" : "";
       var body = (a.summary ? "<p>" + esc(a.summary) + "</p>" : "") + path +
         (a.highlights && a.highlights.length ? '<ul class="highlights">' + a.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") + "</ul>" : "") +
@@ -363,37 +361,11 @@
       return fold("act", head, body);
     }
 
-    $("activityTabs").innerHTML = ys.map(function (y, i) {
-      return '<button type="button" role="tab" id="atab-' + y + '" aria-controls="apanel-' + y + '" aria-selected="' + (i === 0) +
-        '" tabindex="' + (i === 0 ? 0 : -1) + '">' + y + "<em>" + byYear[y].length + "</em></button>";
+    $("activityPanels").innerHTML = order.map(function (c) {
+      var g = acts.filter(function (a) { return a.category === c; });
+      if (!g.length) return "";
+      return '<div class="act-group"><h4>' + esc(c) + " · " + g.length + '</h4><div class="act-grid">' + g.map(card).join("") + "</div></div>";
     }).join("");
-    $("activityPanels").innerHTML = ys.map(function (y, i) {
-      var list = byYear[y];
-      var groups = order.map(function (c) {
-        var g = list.filter(function (a) { return a.category === c; });
-        if (!g.length) return "";
-        return '<div class="act-group"><h4>' + esc(c) + " · " + g.length + '</h4><div class="act-grid">' + g.map(function (a) { return card(a, y); }).join("") + "</div></div>";
-      }).join("");
-      return '<div class="act-panel" role="tabpanel" id="apanel-' + y + '" aria-labelledby="atab-' + y + '"' + (i === 0 ? "" : " hidden") + ">" + groups + "</div>";
-    }).join("");
-
-    function select(btn) {
-      $("activityTabs").querySelectorAll("button").forEach(function (b) {
-        var on = b === btn;
-        b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1;
-        $(b.getAttribute("aria-controls")).hidden = !on;
-      });
-    }
-    $("activityTabs").addEventListener("click", function (e) {
-      var b = e.target.closest("button[role=tab]"); if (b) select(b);
-    });
-    $("activityTabs").addEventListener("keydown", function (e) {
-      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-      var tabs = Array.prototype.slice.call(this.querySelectorAll("button"));
-      var i = tabs.indexOf(document.activeElement); if (i < 0) return;
-      var next = tabs[(i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length];
-      next.focus(); select(next); e.preventDefault(); e.stopPropagation();
-    });
   })();
 
   // ---------- 모두 펼치기 / 접기 ----------

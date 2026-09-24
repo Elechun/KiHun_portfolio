@@ -343,22 +343,8 @@ details.card.fold { display: block; padding: 0; }
 /* education: 학교명 두 줄 */
 .edu-item h3.school small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; }
 
-/* activities: 연도 탭 */
+/* activities */
 .section-lead { margin: -16px 0 24px; color: var(--muted); }
-.year-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 28px; overflow-x: auto; scrollbar-width: none; }
-.year-tabs::-webkit-scrollbar { display: none; }
-.year-tabs button {
-  font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1; color: var(--muted);
-  background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px;
-  padding: 10px 22px 14px; cursor: pointer; display: flex; align-items: baseline; gap: 8px; font-variant-numeric: lining-nums;
-  flex: none; white-space: nowrap;
-}
-.year-tabs button em { font-family: var(--sans); font-style: normal; font-size: 12px; font-weight: 600; color: var(--muted);
-  background: var(--surface-2); border-radius: 999px; padding: 1px 8px; }
-.year-tabs button:hover { color: var(--text); }
-.year-tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
-.year-tabs button[aria-selected="true"] em { background: var(--accent-soft); color: var(--accent); }
-.year-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 8px 8px 0 0; }
 .act-group + .act-group { margin-top: 28px; }
 .act-group h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
 .act-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -369,7 +355,8 @@ details.card.fold { display: block; padding: 0; }
 .act .fold-body { margin-left: 214px; }
 .act-side { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
 .act-period { margin: 0; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.act-role { margin: 0; font-size: 14px; color: var(--accent); font-weight: 600; }
+.act-role { margin: 0; font-size: 14px; color: var(--accent); font-weight: 600; line-height: 1.7; }
+.act-role small { font-size: 12px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
 .act-main { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .act .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .act .actions:empty { display: none; }
@@ -419,7 +406,6 @@ details.card.fold { display: block; padding: 0; }
   .act > summary > .chev { grid-column: 2; grid-row: 1; }
   .act .fold-body { margin-left: 0; }
   .act-side { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .year-tabs button { font-size: 22px; padding: 8px 16px 12px; }
   .hero { padding: 36px 0 16px; }
   .hello { transform: translateX(-60px); font-size: 21px; }
   .avatar-wrap img, .avatar-wrap .avatar { width: 128px; height: 128px; font-size: 48px; }

@@ -171,11 +171,11 @@ window.PORTFOLIO = {
     }
   ],
 
-  // 교내·대외 활동 (학생회, 동아리, 봉사 등). Activities 섹션에 연도 탭으로 나옵니다.
-  // start ~ end 기간에 걸친 모든 연도 탭에 표시됩니다. end 를 비워 두면 "Ongoing".
+  // 교내·대외 활동 (학생회, 동아리, 봉사 등). Activities 섹션에 한 목록으로 나옵니다 (최근 시작한 활동이 위).
+  // end 를 비워 두면 "Ongoing".
   // category 는 탭 안에서 묶이는 분류이고, 아래 activityCategories 순서대로 나옵니다.
   activityCategories: ["Student Council", "Clubs", "External", "Volunteering", "Campus"],
-  // roles: 연도별로 직책이 바뀐 경우 { "2023": "부회장" } 처럼 적으면 그 해 탭에 해당 직책이 보입니다 (없는 해는 role).
+  // roles: 연도별로 맡은 직책을 { "2023": "부회장" } 처럼 적으면 카드 왼쪽과 펼친 내용의 직책 흐름에 보입니다 (없는 해는 role).
   activities: [
     {
       title: "광운알리미 — 광운대학교 공식 홍보대사",
