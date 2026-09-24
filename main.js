@@ -20,9 +20,11 @@
   }
   // 저자 목록에서 본인 이름만 굵게
   function authorsHtml(s) {
-    var me = D.profile.authorName;
     var html = esc(s);
-    return me ? html.split(esc(me)).join("<b>" + esc(me) + "</b>") : html;
+    [D.profile.authorName, D.profile.nameKo].forEach(function (me) {
+      if (me) html = html.split(esc(me)).join("<b>" + esc(me) + "</b>");
+    });
+    return html;
   }
   function parseDate(d) {
     var m = /^(\d{4})\.(\d{1,2})/.exec(d || "");
@@ -75,8 +77,11 @@
       return '<div class="badge-row">' + badge(x.status, "warn") + badge(x.type, "accent") + (x.award ? badge("🏆 " + x.award, "warn") : "") +
         "</div><h3>" + esc(x.title) + '</h3><p class="meta">' + esc(x.venue) + "</p>";
     }, body: function (x) {
-      return (x.location ? '<p class="meta">' + esc(x.location) + "</p>" : "") + (x.authors ? '<p class="meta">' + authorsHtml(x.authors) + "</p>" : "") +
-        actions(linkBtn(x.link, "Slides ↗"));
+      return (x.titleEn ? '<p class="subtitle">' + esc(x.titleEn) + "</p>" : "") +
+        (x.authors ? '<p class="meta">' + authorsHtml(x.authors) + "</p>" : "") +
+        (x.location ? '<p class="meta">' + esc(x.location) + "</p>" : "") +
+        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
+        actions(imageBtn(x.poster, x.title, "Poster"), linkBtn(x.link, "Slides ↗"));
     } },
     { key: "licenses", ko: "License", head: function (x) {
       return (x.planned ? '<div class="badge-row">' + badge("Planned", "plan") + "</div>" : "") + "<h3>" + esc(x.title) +

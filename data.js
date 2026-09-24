@@ -83,7 +83,7 @@ window.PORTFOLIO = {
   // 연도별 페이지 머리말: 한 줄 회고 + 그 해 평점(선택)
   years: {
     "2026": { summary: "[예시] 연구를 논문으로 정리하는 해.", gpa: null },
-    "2025": { summary: "[예시] 첫 특허를 출원한 해.", gpa: null }
+    "2025": { summary: "[예시] 첫 학회 발표와 첫 특허 출원을 한 해.", gpa: null }
   },
 
   // status: "Pending"(출원) | "Granted"(등록). 등록되면 status 를 "Granted"로, number 를 "Patent No. …"로 바꾸세요.
@@ -219,6 +219,7 @@ window.PORTFOLIO = {
   conferences: [
     {
       title: "[발표 제목 입력]",
+      titleEn: "",
       venue: "대한의용생체공학회 추계학술대회 (KOSOMBE 2026 Fall)",
       location: "",
       date: "2026.11",
@@ -226,27 +227,48 @@ window.PORTFOLIO = {
       planned: true,
       type: "",                 // 결과 나오면 "Oral" / "Poster"
       authors: "",
+      summary: "",
       award: "",
+      poster: "",
       link: ""
     },
     {
-      title: "[발표 제목 입력]",
+      title: "DH-Spikformer: Dendritic Heterogeneity 기반 Spiking Transformer를 활용한 Apnea-ECG의 다중 시간 스케일 동역학 분석",
+      titleEn: "DH-Spikformer: Multi-Time-Scale Temporal Dynamics Modeling for Apnea-ECG Analysis with a Dendritic Heterogeneity-Based Spiking Transformer",
       venue: "대한의용생체공학회 춘계학술대회 (KOSOMBE 2026 Spring)",
       location: "",
       date: "2026.05",
-      type: "",                 // "Oral" / "Poster"
-      authors: "",
+      type: "Poster",
+      authors: "전기헌, 최상호",
+      summary: "여러 시간 스케일의 동역학(DH-LIF)과 Spikformer의 전역 문맥 학습을 결합한 DH-Spikformer 제안. ECG에서 뽑은 RRI·RAMP·EDR 특징으로 수면무호흡 구간을 분류해 F1 0.921, AUROC 0.969, 피험자 단위 AHI 추정 r = 0.978 (PhysioNet Apnea-ECG, 35명).",
       award: "",
+      poster: "assets/conferences/kosombe-2026-spring-poster.jpg",
       link: ""
     },
     {
-      title: "[발표 제목 입력]",
+      title: "UWB 레이더 신호 기반의 SNN-CNN 하이브리드 모델을 이용한 비접촉 인체 위치 및 호흡 모니터링",
+      titleEn: "Non-contact Human Localization and Respiration Monitoring Using an SNN-CNN Hybrid Model Based on UWB Signals",
       venue: "대한의용생체공학회 추계학술대회 (KOSOMBE 2025 Fall)",
       location: "",
-      date: "2025.11",          // 춘계(5월)였다면 "2025.05"
-      type: "",                 // "Oral" / "Poster"
-      authors: "",
+      date: "2025.11",
+      type: "Poster",
+      authors: "전기헌, 최상호",
+      summary: "UWB 레이더 2대로 48명을 측정. SNN이 실내 위치(14개 구역)를 먼저 찾고(테스트 정확도 92.4%, CNN 대비 파라미터 약 1/7·학습시간 1/3), 그 영역에서 CNN이 호흡 신호를 추출해 BIOPAC 기준 신호와 특징 유사도 0.94를 확인.",
       award: "",
+      poster: "assets/conferences/kosombe-2025-fall-poster.jpg",
+      link: ""
+    },
+    {
+      title: "UWB 레이더를 이용한 에너지 효율적인 사용자 실내 위치 추정을 위한 스파이킹 뉴럴 네트워크",
+      titleEn: "Spiking Neural Networks for Energy-Efficient User Indoor Localization using UWB Radar",
+      venue: "대한의용생체공학회 춘계학술대회 (KOSOMBE 2025 Spring)",
+      location: "",
+      date: "2025.05",
+      type: "Poster",
+      authors: "전기헌, 최상호",
+      summary: "비접촉 UWB 레이더 데이터를 Latency 인코딩해 2층 LIF 기반 SNN으로 실내 움직임 9개 클래스를 분류. 48명 대상 5-fold 평균 96.18%, 테스트 99.8%로 CNN과 비슷한 정확도를 파라미터 약 1/7, 학습시간 1/4로 달성.",
+      award: "",
+      poster: "assets/conferences/kosombe-2025-spring-poster.jpg",
       link: ""
     }
   ],
