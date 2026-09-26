@@ -326,14 +326,6 @@ window.PORTFOLIO = {
       number: "제2025-BT-03-0043호",
       credentialUrl: "",
       image: "assets/certificates/nipa-nvidia-ai-2025.jpg" // 생년월일 가림 처리한 이미지
-    },
-    {
-      title: "[예시] 의료 인공지능 전문인력 양성 교육",
-      issuer: "OO대학교 산학협력단",
-      category: "University",
-      date: "2025.02",
-      credentialUrl: "",
-      image: ""
     }
   ],
 
