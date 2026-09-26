@@ -132,10 +132,14 @@
   var p = D.profile;
   $("brand").textContent = p.name;
   $("hello").innerHTML = "Hello! I'm <b>" + esc(p.name) + "</b>";
-  $("photo").innerHTML = (p.avatar
-    ? '<img src="' + esc(p.avatar) + '" alt="' + esc(p.name) + ' profile photo">'
-    : '<div class="avatar" aria-hidden="true">' + esc(p.name.charAt(0)) + "</div>") +
-    '<svg class="pulse" viewBox="0 0 140 28" aria-hidden="true"><path d="M2 16 H40 l6 -6 l6 6 H62 l5 5 l7 -19 l7 24 l5 -10 H100 l7 -4 l7 4 H138"/></svg>';
+  // 첫 화면 동그라미는 avatar 가 있을 때만 (없으면 동그라미·화살표 없이 인사말만)
+  if (p.avatar) {
+    $("photo").innerHTML = '<img src="' + esc(p.avatar) + '" alt="' + esc(p.name) + ' profile photo">' +
+      '<svg class="pulse" viewBox="0 0 140 28" aria-hidden="true"><path d="M2 16 H40 l6 -6 l6 6 H62 l5 5 l7 -19 l7 24 l5 -10 H100 l7 -4 l7 4 H138"/></svg>';
+  } else {
+    $("photo").hidden = true;
+    document.querySelector(".hero").classList.add("no-avatar");
+  }
 
   var h = p.headline || {};
   $("headline").innerHTML = esc(h.before) + (h.highlight

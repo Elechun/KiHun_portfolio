@@ -114,6 +114,8 @@ a:hover { text-decoration: underline; }
 .hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .hello { position: relative; align-self: center; transform: translateX(-90px); font-family: var(--hand); font-size: 24px; color: var(--muted); line-height: 1; }
 .hello b { color: var(--accent); font-weight: 700; }
+.no-avatar .hello { transform: none; margin: 8px 0 18px; }
+.no-avatar .hello-arrow { display: none; }
 .hello-arrow { position: absolute; left: 6px; top: 22px; width: 60px; height: 46px; }
 .hello-arrow path { fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
