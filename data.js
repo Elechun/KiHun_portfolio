@@ -105,7 +105,19 @@ window.PORTFOLIO = {
   // status: "In preparation" | "Submitted" | "Under review" | "Accepted" | "Published"
   // 게재된 논문은 journal / citation / doi 를 채우고, 준비 중인 논문은 target / expected 를 채웁니다.
   // authors 안의 profile.authorName 과 같은 이름은 자동으로 굵게 표시됩니다.
+  // 준비 중인 논문은 planned: true 로 두면 점선 카드가 되고 상단 숫자 요약(Journal)에서 빠집니다.
   publications: [
+    {
+      title: "Calibration-Anchored Diffusion Rendering for Joint Localization and Respiratory Waveform Reconstruction of Walking Subjects Using Dual IR-UWB Radar",
+      authors: "Ki Hun Jun, Sang Ho Choi",   // 저자 순서 확인 필요
+      status: "In preparation",
+      planned: true,
+      date: "2026.09",
+      target: "",                           // 투고 후 저널명 (그 전엔 비워 두기)
+      expected: "",
+      summary: "듀얼 IR-UWB 레이더로 공간 안을 걷는 피험자의 위치를 분류하면서 호흡 파형을 함께 복원하는 Diffusion Transformer(DiT) 기반 연구.",
+      link: ""
+    },
     {
       title: "Unconstrained Sleep Apnea Detection With Conv-ViT Network: LoRA Tuning for Personalized Monitoring",
       authors: "Hyun Bin Kwon, Ki Hun Jun, Heenam Yoon, Eun Yeon Joo, Sang Ho Choi",

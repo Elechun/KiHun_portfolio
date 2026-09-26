@@ -58,7 +58,9 @@
     { key: "publications", ko: "Journal", head: function (x) {
       var cls = { Submitted: "info", "Under review": "warn", Accepted: "ok", Published: "ok" }[x.status] || "";
       return '<div class="badge-row">' + badge(x.status, cls) + badge(x.expected) + "</div><h3>" + esc(x.title) + "</h3>" +
-        '<p class="meta"><b>' + esc(x.journal || x.target) + "</b>" + (x.journal ? " · " + yearOf(x.date) : " (target journal)") + "</p>";
+        (x.journal ? '<p class="meta"><b>' + esc(x.journal) + "</b> · " + yearOf(x.date) + "</p>"
+          : x.target ? '<p class="meta">Submitted to <b>' + esc(x.target) + "</b></p>"
+          : '<p class="meta">Manuscript in preparation</p>');
     }, body: function (x) {
       // 링크는 하나만: DOI(영구 주소)가 있으면 DOI, 없으면 link
       return '<p class="meta">' + authorsHtml(x.authors) + "</p>" +
