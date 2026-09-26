@@ -179,7 +179,7 @@ window.PORTFOLIO = {
   activities: [
     {
       title: "광운알리미 — 광운대학교 입학전형 홍보대사",
-      role: "홍보대사",
+      role: "입학전형 홍보대사",
       roles: { "2023": "부회장", "2024": "회장" },
       org: "광운대학교",
       category: "Campus",
