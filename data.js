@@ -18,7 +18,8 @@ window.PORTFOLIO = {
     headline: { before: "의료 데이터로 ", highlight: "임상 현장", after: "의 문제를 푸는 AI를 만듭니다" },
     intro:
       "[예시] 생체신호·의료영상 기반 딥러닝 모델을 개발하고, 이를 실제 임상 의사결정에 쓸 수 있는 형태로 만드는 데 관심이 있습니다. 연구 결과를 특허와 학회 발표로 이어 왔고, 현재 저널 투고를 준비하고 있습니다.",
-    photo: "", // 촬영 후 assets/profile.jpg 로 올리고 "assets/profile.jpg" 로 적기. 첫 화면(동그라미)과 About(증명사진형) 둘 다에 쓰입니다.
+    photo: "assets/profile.jpg",          // About 카드의 증명사진 (3:4)
+    avatar: "assets/profile-square.jpg",  // 첫 화면 동그라미용 얼굴 중심 정사각형 (없으면 photo 사용)
     location: "Seoul, Korea",
     links: {
       // 메일 여러 개 가능. 첫 번째가 강조 버튼이 됩니다.
