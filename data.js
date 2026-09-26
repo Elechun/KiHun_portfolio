@@ -281,11 +281,9 @@ window.PORTFOLIO = {
   languages: [
     {
       title: "TOEIC Speaking",
-      date: "2026.11", // [예시] 응시 예정 연월
-      planned: true,
-      goal: "IH or higher",
-      score: "",
-      image: ""
+      date: "2026.09",          // 응시 연월 (정확한 달이 다르면 수정)
+      score: "IM2",
+      image: ""                 // 성적표 이미지를 넣으면 "Score Report" 버튼이 생김
     }
   ],
 
