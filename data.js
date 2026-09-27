@@ -1,6 +1,5 @@
 /*
  * 포트폴리오 내용은 전부 이 파일에서 수정합니다.
- * [예시] 라고 표시된 값들을 실제 내용으로 바꿔 주세요.
  *
  * - 모든 기록은 date: "YYYY.MM" 을 기준으로 연도별 페이지에 자동 배치됩니다.
  * - 아직 안 한 일(응시 예정 등)은 planned: true 로 두면 "Planned" 표시가 붙습니다.
@@ -17,7 +16,7 @@ window.PORTFOLIO = {
     // highlight 부분에 손으로 그린 동그라미가 쳐집니다
     headline: { before: "의료 데이터로 ", highlight: "임상 현장", after: "의 문제를 푸는 AI를 만듭니다" },
     intro:
-      "[예시] 생체신호·의료영상 기반 딥러닝 모델을 개발하고, 이를 실제 임상 의사결정에 쓸 수 있는 형태로 만드는 데 관심이 있습니다. 연구 결과를 특허와 학회 발표로 이어 왔고, 현재 저널 투고를 준비하고 있습니다.",
+      "몸에 아무것도 붙이지 않는 비접촉 센서(IR-UWB 레이더, PVDF 필름)로 호흡과 수면 같은 생체신호를 측정하고, 이를 저전력 스파이킹 신경망과 생성 모델로 해석하는 연구를 합니다. 광운대학교 Healthcare & AI Lab 석사과정에서 연구를 논문, 특허, 학회 발표로 이어 가고 있습니다.",
     photo: "assets/profile.jpg",          // About 카드의 증명사진 (3:4)
     avatar: "",                           // 첫 화면 동그라미 사진 (비워 두면 동그라미 없이 표시)
     location: "Seoul, Korea",
@@ -83,8 +82,8 @@ window.PORTFOLIO = {
 
   // 연도별 페이지 머리말: 한 줄 회고 + 그 해 평점(선택)
   years: {
-    "2026": { summary: "[예시] 연구를 논문으로 정리하는 해.", gpa: null },
-    "2025": { summary: "[예시] 첫 학회 발표와 첫 특허 출원을 한 해.", gpa: null }
+    "2026": { summary: "첫 저널 논문을 게재하고, 스파이킹 트랜스포머와 디퓨전 모델로 연구를 넓혀 가는 해.", gpa: null },
+    "2025": { summary: "학부를 마치고 석사과정을 시작하며, UWB 레이더 연구로 첫 학회 발표와 첫 특허 출원을 한 해.", gpa: null }
   },
 
   // status: "Pending"(출원) | "Granted"(등록). 등록되면 status 를 "Granted"로, number 를 "Patent No. …"로 바꾸세요.
@@ -274,7 +273,7 @@ window.PORTFOLIO = {
     {
       title: "SQLD (SQL 개발자)",
       issuer: "한국데이터산업진흥원",
-      date: "2026.11", // [예시] 응시 예정 연월
+      date: "2026.11", // 응시 예정 연월
       planned: true,
       number: "",
       image: ""
