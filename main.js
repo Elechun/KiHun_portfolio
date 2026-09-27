@@ -149,7 +149,14 @@
     ? '<span class="circled">' + esc(h.highlight) +
       '<svg viewBox="0 0 120 50" preserveAspectRatio="none" aria-hidden="true"><path d="M8 28 C 6 10, 60 2, 104 10 C 124 16, 118 40, 80 46 C 44 50, 4 44, 6 26 C 8 16, 30 8, 54 7"/></svg></span>'
     : "") + esc(h.after);
-  $("intro").textContent = p.intro;
+  // 문장마다 줄을 나누고(데스크톱), 각 문장은 CSS text-wrap: balance 로 고르게 줄바꿈
+  // 괄호 묶음과 영문 구(IR-UWB, Healthcare & AI Lab 등)는 중간에서 끊기지 않게 묶음
+  var keep = /((?:\([^)]{1,30}\)|[A-Za-z][\w&-]*(?: [A-Za-z&][\w&-]*)*)[가-힣]{0,2})/;
+  $("intro").innerHTML = String(p.intro || "").split(/(?<=[.!?])\s+/).map(function (s) {
+    return '<span class="sent">' + s.split(keep).map(function (part, i) {
+      return i % 2 ? '<span class="nw">' + esc(part) + "</span>" : esc(part);
+    }).join("") + "</span>";
+  }).join(" ");
 
   // 타이핑 효과
   var roles = p.roles && p.roles.length ? p.roles : [""];

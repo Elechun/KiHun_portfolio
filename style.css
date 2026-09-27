@@ -155,7 +155,10 @@ a:hover { text-decoration: underline; }
 .typed #typed::before { content: "I'm a "; color: var(--muted); font-weight: 500; }
 .caret { display: inline-block; width: 3px; height: 1.05em; background: var(--accent); margin-left: 3px; vertical-align: -.15em; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
-.intro { color: var(--muted); max-width: 640px; margin: 14px 0 24px; }
+.intro { color: var(--muted); max-width: 720px; margin: 14px 0 24px; }
+.intro .sent { display: block; text-wrap: balance; }
+.intro .sent + .sent { margin-top: 4px; }
+.intro .nw { white-space: nowrap; }
 
 .hero-links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .btn {
