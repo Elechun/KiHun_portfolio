@@ -275,7 +275,7 @@
       (meta.gpa ? " · GPA " + Number(meta.gpa).toFixed(2) : "") + " · " + list.length + " records</p></div>" +
       '<div class="arrows"><button type="button" data-go="' + (older || "") + '" aria-label="Previous year"' + (older ? "" : " disabled") + ">←</button>" +
       '<button type="button" data-go="' + (newer || "") + '" aria-label="Next year"' + (newer ? "" : " disabled") + ">→</button></div></header>" +
-      '<p class="year-summary">' + esc(meta.summary || "") + (counts ? " " + counts + "." : "") + "</p>" +
+      '<p class="year-summary">' + esc(meta.summary || "") + (counts ? '<span class="year-counts">' + counts + "</span>" : "") + "</p>" +
       tabs + '<div class="cat-panel' + (tabs ? " has-tabs" : "") + '">' + (groups || empty("No records for this year yet.")) + "</div></article>";
   }).join("") : empty("기록을 data.js에 추가하세요.");
 

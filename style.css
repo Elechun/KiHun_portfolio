@@ -328,6 +328,7 @@ details.card.fold { display: block; padding: 0; }
 .arrows button:disabled { opacity: .2; cursor: default; }
 .year-summary { font-family: var(--serif); font-size: 19px; font-weight: 600; margin: 18px 0 28px; }
 .year-summary em { font-style: normal; color: var(--accent); }
+.year-counts { display: block; margin-top: 8px; font-family: var(--sans, inherit); font-size: 15px; font-weight: 500; color: var(--muted); }
 
 .grp { margin-bottom: 24px; }
 .grp h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
