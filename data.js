@@ -231,7 +231,7 @@ window.PORTFOLIO = {
       status: "Under Review", // 제출 완료, 심사 중
       planned: true,
       type: "",                 // 결과 나오면 "Oral" / "Poster"
-      authors: "",
+      authors: "전기헌, 최상호",
       summary: "",
       award: "",
       poster: "",
