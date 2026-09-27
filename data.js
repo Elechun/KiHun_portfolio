@@ -223,12 +223,12 @@ window.PORTFOLIO = {
   // 대한의용생체공학회(KOSOMBE)는 매년 5월(춘계)·11월(추계)에 열림
   conferences: [
     {
-      title: "[발표 제목 입력]",
+      title: "IWAIT submission (title TBA)", // 발표 제목이 정해지면 바꾸세요
       titleEn: "",
-      venue: "대한의용생체공학회 추계학술대회 (KOSOMBE 2026 Fall)",
+      venue: "International Workshop on Advanced Image Technology (IWAIT)",
       location: "",
       date: "2026.11",
-      status: "Under Review",
+      status: "Under Review", // 제출 완료, 심사 중
       planned: true,
       type: "",                 // 결과 나오면 "Oral" / "Poster"
       authors: "",
