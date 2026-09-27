@@ -312,13 +312,21 @@ window.PORTFOLIO = {
       planned: true,
       courses: [
         { title: "Introduction to Healthcare", done: true },
-        { title: "Introduction to Clinical Data", done: false },
+        { title: "Introduction to Clinical Data", done: true },
         { title: "Fundamentals of Machine Learning for Healthcare", done: false },
         { title: "Evaluations of AI Applications in Healthcare", done: false },
         { title: "AI in Healthcare Capstone", done: false }
       ],
       credentialUrl: "",
       image: ""
+    },
+    {
+      title: "Introduction to Clinical Data",
+      issuer: "Stanford Online · Coursera",
+      category: "Coursera",
+      date: "2026.09", // 2026.09.27 발급
+      credentialUrl: "https://coursera.org/verify/QMZWT3S7BHXS",
+      image: "assets/certificates/coursera-intro-to-clinical-data.jpg"
     },
     {
       title: "Introduction to Healthcare",
