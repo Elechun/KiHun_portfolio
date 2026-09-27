@@ -89,6 +89,16 @@ window.PORTFOLIO = {
   // status: "Pending"(출원) | "Granted"(등록). 등록되면 status 를 "Granted"로, number 를 "Patent No. …"로 바꾸세요.
   patents: [
     {
+      title: "SNN을 이용한 PSG 다중 신호 종합 분석",
+      titleEn: "Integrated multi-signal polysomnography (PSG) analysis with spiking neural networks",
+      status: "Planned",
+      planned: true, // 출원하면 planned 를 지우고 status/number/date 를 채우세요
+      number: "Patent filing in preparation",
+      date: "2026.12", // 출원 예정 시점 (임시)
+      summary: "수면다원검사(PSG)의 심전도·산소포화도·호흡 신호처럼 시간 척도와 지연이 서로 다른 생체신호를 저전력 스파이킹 신경망(SNN)으로 함께 해석해, 수면무호흡을 1분 단위로 검출하는 연구. 특허 출원을 준비 중이며, 논문 투고 여부는 검토 중.",
+      note: "Journal submission under consideration"
+    },
+    {
       title: "개인맞춤형 수면 자세 추론 온디바이스 인공지능 모델 제공 장치 및 방법",
       titleEn: "Device and method for providing an on-device AI model for inferring personalized sleep postures",
       status: "Pending",

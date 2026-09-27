@@ -47,13 +47,14 @@
   // head: 접힌 상태에서 보이는 제목·한 줄 설명 / body: 펼치면 보이는 세부 내용
   var TYPES = [
     { key: "patents", ko: "Patent", head: function (x) {
-      return '<div class="badge-row">' + badge(x.status, x.status === "Granted" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
+      return '<div class="badge-row">' + badge(x.status, x.planned ? "plan" : x.status === "Granted" ? "ok" : "info") + "</div><h3>" + esc(x.title) + "</h3>" +
         '<p class="meta">' + esc(x.number) + "</p>";
     }, body: function (x) {
       return (x.titleEn ? '<p class="subtitle">' + esc(x.titleEn) + "</p>" : "") +
         (x.applicant ? '<p class="meta">Applicant · ' + esc(x.applicant) + "</p>" : "") +
         (x.inventors ? '<p class="meta">Inventors · ' + esc(x.inventors) + "</p>" : "") +
-        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") + actions(imageBtn(x.image, x.title, "Filing Receipt"));
+        (x.summary ? "<p>" + esc(x.summary) + "</p>" : "") +
+        (x.note ? '<p class="meta">Next · ' + esc(x.note) + "</p>" : "") + actions(imageBtn(x.image, x.title, "Filing Receipt"));
     } },
     { key: "publications", ko: "Journal", head: function (x) {
       var cls = { Submitted: "info", "Under review": "warn", Accepted: "ok", Published: "ok" }[x.status] || "";
