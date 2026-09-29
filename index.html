@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KiHun Portfolio</title>
+  <meta name="description" content="Healthcare AI 연구 포트폴리오 — 연도별 특허, 학회 발표, 논문, 자격증, 수료 이력">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    try {
+      var t = localStorage.getItem("theme");
+      if (t) document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#top" class="brand" id="brand"></a>
+      <nav class="nav" aria-label="섹션">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#activities">Activities</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="다크 모드 전환">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hello">
+          <span id="hello"></span>
+          <svg class="hello-arrow" viewBox="0 0 80 60" aria-hidden="true"><path d="M4 6 C 30 4, 60 14, 66 48 M 56 40 L 66 50 L 74 38"/></svg>
+        </div>
+        <div class="avatar-wrap" id="photo"></div>
+        <h1 class="headline" id="headline"></h1>
+        <p class="typed" aria-live="off"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+        <p class="intro" id="intro"></p>
+        <div class="hero-links" id="heroLinks"></div>
+        <dl class="stats" id="stats"></dl>
+      </div>
+    </section>
+
+    <!-- About: 학력 + 자격/어학 + 관심분야 -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title"><span>01</span>About</h2>
+        <div class="about-grid">
+          <article class="card edu-card"><div class="edu-photo" id="eduPhoto"></div><div class="edu-list" id="educationList"></div></article>
+          <div class="card">
+            <h3 class="card-label">Licenses &amp; Languages</h3>
+            <ul class="cred-list" id="credList"></ul>
+            <h3 class="card-label">Research Interests</h3>
+            <ul class="chips" id="interests"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title"><span>02</span>Projects<button type="button" class="fold-all" data-fold-all="projectList">Expand all</button></h2>
+        <div class="projects" id="projectList"></div>
+      </div>
+    </section>
+
+    <!-- Timeline: 연도별 페이지 -->
+    <section id="timeline" class="section">
+      <div class="container">
+        <h2 class="section-title"><span>03</span>Timeline<button type="button" class="fold-all" data-fold-all="yearPages">Expand all</button></h2>
+        <div class="tl">
+          <nav class="year-rail" aria-label="연도 선택"><ul id="yearRail"></ul></nav>
+          <div class="year-pages" id="yearPages"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activities: 교내·대외 활동 -->
+    <section id="activities" class="section">
+      <div class="container">
+        <h2 class="section-title"><span>04</span>Activities<button type="button" class="fold-all" data-fold-all="activityPanels">Expand all</button></h2>
+        <p class="section-lead">Student council, clubs, volunteering and other work beyond the lab</p>
+        <div id="activityPanels"></div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <h2 class="section-title"><span>05</span>Skills</h2>
+        <div class="skills" id="skillList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-hello">Let's talk.</p>
+        <div id="footerLinks" class="hero-links"></div>
+      </div>
+      <p class="muted" id="copyright"></p>
+    </div>
+  </footer>
+
+  <dialog id="viewer" class="viewer">
+    <form method="dialog"><button class="icon-btn viewer-close" aria-label="닫기">✕</button></form>
+    <img id="viewerImg" alt="">
+    <p id="viewerCaption" class="muted"></p>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
