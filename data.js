@@ -247,7 +247,7 @@ window.PORTFOLIO = {
       authors: "Ki Hun Jun, Sang Ho Choi",
       summary: "수면다원검사(PSG)의 7개 생체신호를 신호마다 따로 처리하는 말초(peripheral)–중추(central) 스파이킹 신경망. 어떤 신호 조합이 판단을 이끄는지 해석할 수 있고, 산소포화도(SaO2)가 빠져도 재학습 없이 AUROC 0.931을 유지 (전체 신호 0.966, 정확도 91.7%, PhysioNet/CinC 2018 994명).",
       award: "",
-      poster: "", // 특허 출원 전이라 포스터 이미지는 보류
+      poster: "assets/conferences/apcmbe-2026-poster.jpg",
       link: ""
     },
     {
