@@ -238,6 +238,19 @@ window.PORTFOLIO = {
       link: ""
     },
     {
+      title: "Breathless but Not Blind: Interpreting Multi-Signal Patterns of Sleep Apnea with a Sensor-Robust Peripheral-Central Spiking Network",
+      titleEn: "",
+      venue: "13th Asian-Pacific Conference on Medical and Biological Engineering (APCMBE 2026)",
+      location: "EXCO, Daegu · Nov 4–7, 2026 · P-T03-0730",
+      date: "2026.11",
+      type: "Poster",
+      authors: "Ki Hun Jun, Sang Ho Choi",
+      summary: "수면다원검사(PSG)의 7개 생체신호를 신호마다 따로 처리하는 말초(peripheral)–중추(central) 스파이킹 신경망. 어떤 신호 조합이 판단을 이끄는지 해석할 수 있고, 산소포화도(SaO2)가 빠져도 재학습 없이 AUROC 0.931을 유지 (전체 신호 0.966, 정확도 91.7%, PhysioNet/CinC 2018 994명).",
+      award: "",
+      poster: "", // 특허 출원 전이라 포스터 이미지는 보류
+      link: ""
+    },
+    {
       title: "DH-Spikformer: Dendritic Heterogeneity 기반 Spiking Transformer를 활용한 Apnea-ECG의 다중 시간 스케일 동역학 분석",
       titleEn: "DH-Spikformer: Multi-Time-Scale Temporal Dynamics Modeling for Apnea-ECG Analysis with a Dendritic Heterogeneity-Based Spiking Transformer",
       venue: "대한의용생체공학회 춘계학술대회 (KOSOMBE 2026 Spring)",
