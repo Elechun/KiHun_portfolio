@@ -294,7 +294,7 @@ window.PORTFOLIO = {
   // 국가/민간 자격증. 응시 전이면 planned: true
   licenses: [
     {
-      title: "SQLD (SQL 개발자)",
+      title: "ADsP (데이터분석 준전문가)",
       issuer: "한국데이터산업진흥원",
       date: "2026.11", // 응시 예정 연월
       planned: true,
@@ -308,8 +308,6 @@ window.PORTFOLIO = {
       number: "",
       image: ""
     }
-    // 응시 결정되면 주석 해제:
-    // , { title: "ADsP (데이터분석 준전문가)", issuer: "한국데이터산업진흥원", date: "2027.03", planned: true, number: "", image: "" }
   ],
 
   // 어학 성적. 응시 전이면 planned: true + goal 에 목표 등급
