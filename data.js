@@ -296,8 +296,7 @@ window.PORTFOLIO = {
     {
       title: "ADsP (데이터분석 준전문가)",
       issuer: "한국데이터산업진흥원",
-      date: "2026.11", // 응시 예정 연월
-      planned: true,
+      date: "2026.11", // 제51회 합격
       number: "",
       image: ""
     },
