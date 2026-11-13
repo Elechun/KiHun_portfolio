@@ -89,14 +89,27 @@ window.PORTFOLIO = {
   // status: "Pending"(출원) | "Granted"(등록). 등록되면 status 를 "Granted"로, number 를 "Patent No. …"로 바꾸세요.
   patents: [
     {
-      title: "SNN을 이용한 PSG 다중 신호 종합 분석",
-      titleEn: "Integrated multi-signal polysomnography (PSG) analysis with spiking neural networks",
-      status: "Planned",
-      planned: true, // 출원하면 planned 를 지우고 status/number/date 를 채우세요
-      number: "Patent filing in preparation",
-      date: "2026.12", // 출원 예정 시점 (임시)
-      summary: "수면다원검사(PSG)의 심전도·산소포화도·호흡 신호처럼 시간 척도와 지연이 서로 다른 생체신호를 저전력 스파이킹 신경망(SNN)으로 함께 해석해, 수면무호흡을 1분 단위로 검출하는 연구. 특허 출원을 준비 중이며, 논문 투고 여부는 검토 중.",
-      note: "Journal submission under consideration"
+      title: "신호별 대역분할 수상돌기 소마와 단기촉진 중추 기반 다중 생체신호 수면무호흡 검출 시스템",
+      titleEn: "Multi-biosignal sleep apnea detection system based on signal-specific band-split dendritic somas and a short-term facilitation center",
+      status: "Pending",
+      number: "Application No. 10-2026-0226053",
+      date: "2026.11", // 출원일 2026.11.12
+      inventors: "최상호, 전기헌",
+      applicant: "광운대학교 산학협력단",
+      summary: "수면다원검사(PSG)의 심전도 유도 신호·산소포화도·호흡 신호를 신호마다 독립된 스파이킹 소마가 처리하고, 단기촉진(STF) 중추에서 하나의 판단으로 통합해 수면무호흡을 1분 단위로 검출. APCMBE 2026 포스터 연구.",
+      note: "Journal submission under consideration",
+      image: "assets/patents/patent-10-2026-0226053.jpg" // 출원번호통지서 (DAS 접근코드 가림)
+    },
+    {
+      title: "직류 제거형 수상돌기 스파이킹 신경망과 단기촉진 중추를 이용한 단일 유도 심전도 수면무호흡 저전력 스트리밍 검출 시스템",
+      titleEn: "Low-power streaming sleep apnea detection system for single-lead ECG using DC-removing dendritic spiking neural networks and a short-term facilitation center",
+      status: "Pending",
+      number: "Application No. 10-2026-0226046",
+      date: "2026.11", // 출원일 2026.11.12
+      inventors: "최상호, 전기헌",
+      applicant: "광운대학교 산학협력단",
+      summary: "단일 유도 심전도(ECG) 하나만으로 수면무호흡을 실시간 스트리밍 검출하는 저전력 시스템. 직류 성분을 제거하는 수상돌기 스파이킹 신경망과 단기촉진(STF) 중추를 이용.",
+      image: "assets/patents/patent-10-2026-0226046.jpg" // 출원번호통지서 (DAS 접근코드 가림)
     },
     {
       title: "개인맞춤형 수면 자세 추론 온디바이스 인공지능 모델 제공 장치 및 방법",
@@ -107,7 +120,7 @@ window.PORTFOLIO = {
       inventors: "최상호, 전기헌",
       applicant: "광운대학교 산학협력단",
       summary: "침대에 설치한 FSR·PVDF 센서 신호로 수면 자세를 분류하는 멀티모달 AI 모델을, 사용자 기기에서 적은 파라미터만 미세 조정(PEFT)해 개인 맞춤형으로 만들고 온디바이스로 실시간 추론.",
-      image: "assets/patents/patent-10-2025-0182152.jpg" // 출원번호통지서 (개인정보 없음)
+      image: "assets/patents/patent-10-2025-0182152.jpg" // 출원번호통지서 (DAS 접근코드 가림)
     }
   ],
 
